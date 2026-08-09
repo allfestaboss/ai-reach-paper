@@ -56,13 +56,24 @@ passed the grader, passed calibration against hand computation — which repeate
 the same integration bounds — and passed a twelve-case adversarial suite, every
 member of which was generated from the reference and therefore inherited them.
 
+**One further defect was reachable by neither detector.** A graded question
+scored five fields that the task statement never mentioned, so no solver could
+report their omission, and the reference was not itself wrong, so no check
+flagged it. It appeared only as a deduction shared by all six runs of a
+replication commissioned to measure something else. Solver reports and
+replication have complementary blind spots, and a design with only the first is
+not covered.
+
 The same design lets us measure how far three known effects vary across
 domains, holding the procedure fixed. Supplying the governing material moves a
 drawing-generation task from 25 to 97 out of 100, while in customs
 classification enlarging it from 0.81 to 4.4 million characters leaves all 61
-answers unchanged. Scores saturate while cost does not: in one domain
-configurations tie at 100/100 across two task sizes while the cost gap widens
-from 1.37 to 2.6 times. Repeated under identical conditions,
+answers unchanged. Scores saturate while cost does not: in two domains
+replicated at n = 3 per configuration, scores tied while token consumption
+separated by 2.11x and 1.49x, at 15.6 and 13.9 pooled standard deviations. In
+one of the two the cheaper configuration in tokens is the more expensive one in
+wall-clock time, so a single cost column cannot rank them. Repeated under
+identical conditions,
 the fraction of cases whose answer changes every time ranges from 0 to 82
 percent — and in half of the unstable cases the number of correct answers is
 identical across runs while the set of answers is not, a pattern that
@@ -71,41 +82,40 @@ success-rate reliability metrics cannot express.
 All eight benchmarks, their reference solutions, their defect records and their
 run logs are released under permissive terms with persistent identifiers.
 
-*(≈ 443 words。**arXiv の上限は1,920文字＝約300語なので超過**。下の投稿版を使う)*
+*(≈ 530 words。**arXiv の上限は1,920文字＝約300語なので超過**。下の投稿版を使う)*
 
 ---
 
 ## Abstract — 投稿版（arXiv の1,920文字以内）
 
 Benchmarks are known to contain incorrect ground truth, and models are used to
-find it. That work concerns sparse annotation errors on individual instances.
-We report a class it does not reach: systematic errors in the program deriving the
-reference, which displace every case on the same code path identically.
+find it. That work concerns sparse annotation errors on individual instances. We
+report a class it does not reach: systematic errors in the program deriving the
+reference, which displace every case on one code path identically.
 No correct majority remains for statistical detection, and re-annotation
-reproduces the error whenever it follows the same procedure. It is equally
-invisible to the benchmark's own machinery: the grader compares against the
-reference, calibration recomputes it along that procedure, and adversarial cases
-are generated from it. None can detect an error in it.
+following the same procedure reproduces it. It is equally invisible to the
+benchmark's own machinery: grader, calibration and adversarial cases are all
+functions of the reference, so none detects an error in it.
 
-Evidence comes from eight benchmarks — 24 tasks spanning CAD, quantity
-surveying, geotechnics, tolerancing, BIM, customs classification and tax law —
-built to one design in which inputs, procedure and reference solutions all come
-from national standards and administrative rulings. Fifteen defects
-were found on the examination side rather than in the answers, and fourteen by
-the solvers, which hold the raw inputs but not the answer key. In the sharpest
-case a reference integrated a geotechnical index below the bottom of the
-borehole, placing 60 percent of a reported value in undrilled depth; it passed
-the grader, calibration to a difference of zero, and all twelve adversarial
-cases.
+Evidence: 8 benchmarks — 24 tasks spanning CAD, quantity surveying,
+geotechnics, tolerancing, BIM, customs classification and tax law — built to one
+design in which inputs, procedure and references all come from national
+standards and administrative rulings. Fifteen defects were found on the
+examination side rather than in the answers, fourteen by the solvers, which hold
+the raw inputs but not the answer key. In the sharpest case a reference
+integrated a geotechnical index below the bottom of the borehole, putting 60
+percent of a reported value in undrilled depth; it passed the grader,
+calibration to zero difference, and all twelve adversarial cases. A further
+defect was reachable by neither: a scored field the task never specified, seen
+only as a deduction common to six repeated runs.
 
 The same design measures how far three documented effects vary by domain.
 Supplying the governing material ranges from moving a task 25 to 97 out of 100
-to changing none of 61. Where scores tie, cost does not: six runs of one task
-all scored 100/100 while the two configurations differed 2.11x in tokens, 15.6
-pooled SDs apart. Answers change under identical repetition in 0 to 82
+to changing none of 61. Where scores tie, cost does not: in two domains, runs
+tied on score while configurations differed 2.11x and 1.49x in tokens, 15.6 and
+13.9 pooled SDs apart. Answers change under identical repetition in 0 to 82
 percent of cases, half of them scoring identically by different routes. All
-eight benchmarks, their defect records and run logs are released with persistent
-identifiers.
+benchmarks, defect records and run logs are released with DOIs.
 
 ## v1 から何が変わったか
 

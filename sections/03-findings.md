@@ -53,6 +53,15 @@ that the reference is right.** The situation is that of a ruler: measurements
 can be shown consistent with its graduations, but an error in the graduations
 is not observable through it.
 
+There is a second consequence, which we did not see until it produced a defect
+(§3.1.5). A benchmark has a fourth artefact — the **task statement** given to
+the solver — and it is the only one *not* derived from the reference. By the
+same argument, the three checks cannot detect a disagreement between the two
+either. They can confirm that the reference is graded as the reference; they
+cannot confirm that it answers the question that was asked. Where the ruler
+analogy has the graduations wrong, this has the ruler measuring a different
+quantity than the one requested, and reporting consistent values throughout.
+
 ### 3.1.2 The clearest instance
 
 In the geotechnical benchmark (`jiban`), the reference solution integrated the
@@ -171,6 +180,87 @@ published**. A benchmark that reports no examination-side defects has either not
 looked or is not saying, and there is at present no way for a reader to tell
 which.
 
+### 3.1.5 Two limits, found by replicating a task we thought was clean
+
+The `kikai` replication reported in §3.2.3 was run to measure repeatability, not
+to look for defects. It produced two results that bear on the argument above,
+and both cut against it.
+
+**A defect the solvers could not have reported.** All six runs scored 94.6 with
+an identical per-question breakdown, losing the same 4.8 points at the same nine
+of twenty-eight items. The graded question covers five fields — the form of the
+tolerance zone, projected length, unit length, unit area shape, and material
+modifiers. **Four of the five appear nowhere in the task statement or the answer
+format.** Only one of those four has instances in this file, so the entire
+deduction is the zone form: eight position tolerances whose zone is cylindrical
+and one whose zone is spherical, returned as null by every run. The answer
+format's worked example uses a flatness tolerance, which carries no diameter
+symbol, so the example is structurally incapable of revealing that the field
+exists. Six solvers, in two arms, using different methods — one reading the file
+directly, one writing a parser — omitted it identically. They did not misread
+anything. They answered what was asked.
+
+This is an examination-side defect of the same kind as the fifteen in §3.1.3,
+but it reached us by a different route. No solver reported it, and none could
+have: a solver cannot report the omission of a field whose existence the
+specification never discloses. It became visible only on scoring, as a constant
+deduction shared by every submission.
+
+**Our adversarial suite had already constructed this exact submission and
+classified it as an attack.** The suite includes a case named
+`evil_drop_zone_form`, which takes the reference and blanks that field to check
+that the grader notices. It scores **94.6 out of 100, losing Q5** — the same
+score, on the same question, that all six honest solvers received. The case is
+recorded as passing, because the grader did notice.
+
+The machinery worked exactly as designed. It knew the field was graded, and
+proved that dropping it was penalised. What no part of it could know is that the
+task statement never asked for the field, so the penalised submission was the
+compliant one. **The suite had written down the correct answer to a question it
+was not able to ask.**
+
+This locates the gap precisely, and it is a sharper version of §3.1.1 than we
+stated there. The grader, the calibration and the adversarial suite are all
+functions of the reference, which is why none can detect an error *in* the
+reference. But the **task statement is not a function of the reference** — it is
+the one artefact in the benchmark written independently of it — and by the same
+argument, none of the three can detect a disagreement *between* the two. A
+benchmark can be internally consistent to the last decimal place and still be
+grading answers to a question it did not ask.
+
+**The detector in §3.1.4 has a blind spot that is the exact complement of the
+checks' blind spot** — the checks cannot see an error inside the reference, and
+the solvers cannot see an error in what the reference asks for but the task does
+not. Neither covers the other. What located this one was neither: it was the
+pattern of six identical scores, which is available only under replication, and
+replication is what §4.4 lists as the series' weakest dimension.
+
+**An external check value that does not settle the reference.** The `kikai`
+input is a NIST conformance test file, and NIST embeds its own expected counts in
+it as `INTEGER_REPRESENTATION_ITEM` entities: 28 geometric tolerances, 4
+composite tolerances, 6 datums, 6 datum targets, 67 semantic PMI elements. This
+is the closest thing to a solution for §3.1.1 that the series encountered — the
+data provider stating the answer inside the data, checkable from outside whoever
+wrote the reference. The tolerance count matches ours exactly.
+
+The datum count does not. The file says 6; there are 10 `DATUM` entities and our
+reference says 10. Both are defensible: NIST counts datums established by datum
+*features*, and assigns the four established by datum *targets* to the separate
+`datum targets` line. **The disagreement is not an error on either side. It is
+that "number of datums" names two quantities.** Five of the six solvers found the
+discrepancy independently and three warned that a reference built on the file's
+own figure would conflict with theirs.
+
+An externally supplied check value therefore does not close the loop; it
+relocates the question from *is this number right* to *what is this number
+counting*, and the second question is not answerable by comparison. This is
+worth stating because the design in §2 rests on external provenance — inputs,
+procedure and reference all drawn from standards bodies and administrative
+rulings — and it would be natural to read that as a solution to §3.1.1. It is
+not. External provenance constrains the reference; it does not validate it.
+Where the standard's terms are themselves ambiguous, provenance imports the
+ambiguity along with the authority.
+
 ---
 
 ## 3.2 How far three known effects vary across domains
@@ -240,13 +330,38 @@ arm C's 1.8x, so the unit-cost gap widened from 1.37x to 2.6x. That
 trend rests on single runs and is reported as corroboration, not as
 measurement.
 
-Two further observations are consistent with it and are reported as such. In
-`kikai`, arm C covered 6 of 6 files against arm B's 5 of 6 while consuming
-216,591 tokens against 1,053,066 — though arm B's figure includes 551,489
-tokens spent by subagents pursuing a phantom reference caused by a defect in
-our own parser, so the comparison is contaminated by §3.1.3. In `bim`, arm C
+**A second domain, replicated to the same protocol.** `kikai` T001 was re-run
+three times per arm under the isolation and no-subagent rules above. It differs
+from `jiban` in that the task is extraction rather than computation: the answer
+is read out of a STEP AP242 file, not derived from it.
+
+| | mean tokens | SD | mean seconds | mean tool calls | score |
+|---|---|---|---|---|---|
+| arm B (one-shot) | 126,286 | 2,837 (2.2%) | 258 | 13.3 | 94.6 |
+| arm C (execution permitted) | **84,614** | 3,151 (3.7%) | **402** | **25.3** | 94.6 |
+
+The separation is 1.49x at **13.9 pooled standard deviations**, with no overlap
+between the arms' ranges (arm B 123,070–128,436; arm C 81,122–87,246). The sign
+agrees with `jiban`: permitting execution reduces token consumption where the
+alternative is holding the input in context.
+
+**But the same measurement reverses on a different resource.** Arm C took 1.56x
+the wall-clock time and 1.9x the tool calls to reach the identical answer. It
+writes a parser, runs it, finds it wrong, and fixes it — the three arm C runs
+each reported a different self-caught error, all in the STEP parsing itself —
+whereas arm B reads the file and answers. Execution trades tokens for round
+trips. **Which arm is "cheaper" is therefore not a property of the arms; it is
+determined by which resource the question is about,** and every cost figure in
+this section is tokens.
+
+The scores are equal to the decimal place — 94.6 in all six runs, with the same
+per-question breakdown — so this is again a case where a benchmark reporting
+only score would record the two configurations as equivalent. The 5.4 points
+lost in common are an examination-side defect of ours, analysed in §3.1.5.
+
+One further observation is consistent and is reported as such: in `bim`, arm C
 scored 255/255 against 235/255 while consuming 98,901 tokens against 371,572.
-Neither is a controlled measurement of cost.
+That is not a controlled measurement of cost.
 
 A benchmark reporting only score would record the `jiban` configurations as
 equivalent at both task sizes.
@@ -296,13 +411,15 @@ Across domains, holding conditions identical:
 |---|---|---|---|
 | Quantity takeoff (`sekisan`) | quantities | 5 | **0%** — task S005 identical to the character |
 | Geotechnical assessment (`jiban`) | vector of reals | 3 | **0%** at the grader's tolerance; **100%** at exact match |
+| Tolerancing (`kikai`) | discrete extraction | 6 | **0%** — all 28 items identical every time |
 | Customs classification (`kanzei`) | one discrete code | 5 | **25%** — 46/61 identical every time |
 | Tax provision retrieval (`zeimu`) | set of provisions | 5 | **82%** — 14/78 identical every time |
 
 **The `jiban` row is not commensurable with the others, and neither, on
-inspection, are the rest.** Where the answer is a discrete code (`kanzei`) or a
-set of identifiers (`zeimu`), "the same answer" is well defined and exact
-comparison is the natural test. Where the answer is a vector of real numbers
+inspection, are the rest.** Where the answer is a discrete code (`kanzei`), a
+set of identifiers (`zeimu`), or a list of entities extracted from a file
+(`kikai`), "the same answer" is well defined and exact comparison is the natural
+test. Where the answer is a vector of real numbers
 (`jiban`), exact comparison is not a meaningful test: none of the six `jiban`
 runs reproduced another to the last digit, while all eight cases agreed within
 the grader's tolerance of one percent. Measured at four significant figures, the
@@ -319,7 +436,20 @@ stable only to a stated precision. **A cross-domain reliability figure needs to
 state its tolerance, and the literature convention of a binary success criterion
 hides that it is doing so.**
 
-Restricting attention to the two domains where exact comparison is meaningful:
+Restricting attention to the three domains where exact comparison is meaningful
+does not narrow the spread: it runs from 0% to 82%. `kikai` sits at the stable
+end. Its task extracts every geometric tolerance from a STEP AP242 file — 28
+items with their types, values, datum references in priority order, and material
+modifiers — and across six runs (two arms, three each) every one of the 28 was
+reproduced identically, down to the ordering of datums within each frame. The
+graded score was 94.6 in all six, and the per-question breakdown was identical
+as well. **Discreteness of the answer is therefore not what makes a domain
+unstable.** `kikai` and `kanzei` both have discrete answers and sit at opposite
+ends. What separates them is that `kikai` asks what a file contains, while
+`kanzei` asks which of several defensible categories a described good belongs
+to; the first has a determinate answer to read off, the second requires a
+judgement that the system does not make the same way twice.
+
 `kanzei` scored 41, 42, 39, 41, 42 (range 3, SD 1.10) across the five runs. The
 score is stable to about a point; the answers are not. Decomposed by behaviour
 across runs, 35 cases are right every time, 11 wrong every time, and 15 depend

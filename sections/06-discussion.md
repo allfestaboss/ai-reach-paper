@@ -63,9 +63,28 @@ examination-side defect reports in `kanzei`, fourteen were correct. A reviewer
 disposed to read such remarks as excuses would have discarded fourteen true
 defect reports to avoid one false one.
 
+**Read the score distribution across repeated runs as a defect signal.** A
+fourth change, which we adopted only after the replication in §3.1.5 forced it.
+When six independent runs lose the same points at the same items, the common
+factor is not the solvers. In that case the deduction fell entirely on fields
+the task statement never mentioned but the grader scored, and **no solver report
+could have surfaced it**: a solver cannot object to the omission of something it
+was never told exists. The three changes above all route through the solver's
+report, and this class is invisible to all of them.
+
+The check is nearly free wherever repetition is already being run for
+reliability: compare the per-question breakdowns rather than only the totals,
+and treat any deduction shared by every run as an examination defect until shown
+otherwise. It is worth noting how narrowly this one was caught. Six runs were
+commissioned to measure cost variance, not to audit the task; the defect was a
+by-product, and in `doboku` and `bim`, the two domains here with no repeated
+runs at all, it would not have been visible.
+
 None of this closes the gap identified in §4.1.1. A solver notices what a solver
-notices; coverage remains uncontrolled and unmeasured. The claim is only that
-the detector which demonstrably worked can be operated on purpose.
+notices, and replication catches only what is constant across runs; coverage
+remains uncontrolled and unmeasured. The claim is that two detectors
+demonstrably worked here, that their blind spots are complements rather than
+duplicates, and that both can be operated on purpose.
 
 ## 6.3 Defect counts should be reported
 
@@ -107,6 +126,32 @@ person, from the same external sources. That is expensive, and we have not done
 it. Releasing the reference implementations (§7) is the cheapest available
 approximation, in that it makes reimplementation possible for anyone who cares
 to.
+
+One domain in the series went further than the design requires, and the result
+sharpens the point. The mechanical benchmark's input is a NIST conformance test
+file in which NIST records its own expected counts as entities inside the file
+itself. This is the limiting case of external authorship: the provider of the
+data states the answer, in the data, before any reference is written, and the
+statement is checkable by anyone without access to our code. The tolerance count
+agrees with ours exactly.
+
+The datum count does not — 6 against our 10 — and neither figure is wrong.
+NIST counts datums established by datum features and books the four established
+by datum targets under a separate heading; we count datum entities. **The
+external check value did not settle the reference. It moved the question from
+whether the number is correct to what the number counts**, and that question is
+not settled by comparison, because both parties computed correctly from
+different readings of the same term.
+
+This is the sharpest form of the section's claim. Even when an external
+authority supplies not just the inputs and the procedure but the answer, the
+designer still chooses what the answer is an answer to, and that choice is
+invisible to every check that compares numbers. Independent reimplementation
+would not have caught this one either; two implementations of the same reading
+agree. What caught it was that the solvers held both figures — the file's and
+the entity count — and noticed they disagreed. **A benchmark whose reference is
+externally derived should record which of the source's own figures it declined
+to adopt, and why.** Ours did not, until this.
 
 ## 6.5 A note on what saturation means here
 

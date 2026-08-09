@@ -69,13 +69,22 @@ absent, scoring proceeds and the cost column is empty.
 
 Repositories in which examination-side defects were found carry the record: what
 was wrong, who reported it, whether it was confirmed, and what changed. The
-`kanzei` record covers fifteen defects across three rounds and the `jiban`
-record covers four in a single round. Results computed before a correction are
-marked as superseded rather than removed, so that the effect of each correction
-on the reported figures can be traced.
+`kanzei` record covers fifteen defects across three rounds, the `jiban` record
+covers four in a single round, and the `kikai` record covers one found by
+replication (`kikai-bench/docs/T001n3.md`). Results computed before a correction
+are marked as superseded rather than removed, so that the effect of each
+correction on the reported figures can be traced.
 
 Two corrections are large enough to note here. In `jiban`, correcting the
 integration bound described in §3.1.2 changed one hole's reported index from
 27.965 to 11.756, and correcting the fines-content extraction raised the number
 of assessable points in that task from 36 to 52. Both predate the figures
 reported in §3.2.
+
+**The `kikai` defect has deliberately not been corrected.** Adding the missing
+fields to the task statement would change the scores, and the six runs were
+commissioned to measure cost, which requires the task to be identical across
+them. The defect falls equally on all six, so the comparison in §3.2.2 is
+unaffected; it costs every run the same 5.4 points. The correction is queued for
+a subsequent version, and the figures here are the uncorrected ones and are
+labelled as such in the repository.

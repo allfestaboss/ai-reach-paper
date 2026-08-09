@@ -22,7 +22,10 @@ abstract: >-
   and tax law — built to one design in which inputs, procedure and reference
   solutions all come from national standards and administrative rulings. Fifteen
   defects were found on the examination side rather than in the answers, and
-  fourteen by the solvers, which hold the raw inputs but not the answer key.
+  fourteen by the solvers, which hold the raw inputs but not the answer key. A
+  further defect was reachable by neither the solvers nor the checks — a scored
+  field the task never specified, visible only as a deduction common to six
+  repeated runs.
 
 authors:
   - family-names: "Ohkubo"

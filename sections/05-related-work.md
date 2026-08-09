@@ -53,9 +53,19 @@ not derivable from any statistic over the dataset.
 
 We do not claim that reference errors are novel, nor that using models to find
 them is novel. We claim that **systematic errors in computed reference solutions
-are a distinct class**, that the established detection methods are structurally
-unable to reach them, and that in this series the only detector that
-located them was the subject under test (§3.1).
+are a distinct class** and that the established detection methods are
+structurally unable to reach them (§3.1).
+
+On what did reach them, the series supports a weaker statement than we first
+drew. In the customs benchmark the subject under test located 14 of 15 and our
+own checks the remaining one; in the geotechnical benchmark the solvers located
+all four. But one defect, found later in the mechanical benchmark, was located
+by neither. It was visible only as a constant deduction shared across six
+repeated runs, and no solver could have reported it, because it was an omission
+from the specification the solvers were working to (§3.1.5). **Solver reports
+and replication are complementary detectors with disjoint blind spots**, and a
+design that has only the first — which is to say, most of this series — is not
+covered.
 
 ## 5.2 Professional and domain-specific benchmarks
 
@@ -120,8 +130,15 @@ where accuracy has stopped discriminating: in one domain, configurations tied at
 100 out of 100 across two task sizes while their unit-cost gap widened from 1.37
 to 2.6 times. The observation requires the accuracy axis to be saturated before
 the cost axis is read, which is a condition rarely reported because saturated
-tasks are usually retired rather than instrumented. §3.2.2 states why we make
-this claim for one domain only.
+tasks are usually retired rather than instrumented. Two domains now supply a
+replicated version of it: a 2.11x and a 1.49x separation, each many pooled
+standard deviations wide, between configurations whose scores are equal.
+
+The mechanical domain adds a qualification we have not seen stated in this
+literature. Its execution-permitted arm is the cheaper one in tokens and the
+more expensive one in wall-clock time and tool calls, at an identical score.
+**A single cost column cannot represent that**, and which arm a leaderboard
+ranks higher is decided by which resource the column happens to hold.
 
 ## 5.5 Summary of position
 
@@ -130,11 +147,11 @@ this claim for one domain only.
 | Benchmarks contain ground-truth errors | **No** | Northcutt et al.; MMLU-Redux |
 | Models can be used to find such errors | **No** | Confident learning; PLM-based detection |
 | **Systematic errors in computed references are a distinct class that those methods cannot reach** | **Yes** | — |
-| **In this design the solvers were the only detector that located them, 14 of 15** | **Yes** | — |
+| **In this design the subject under test located 14 of 15; one further defect was reachable only by replication** | **Yes** | — |
 | Retrieval and augmentation help unevenly, sometimes negatively | **No** | Retrieval augmentation literature |
 | Reliability under repetition is an evaluation axis | **No** | τ-bench and successors |
 | **A stable score can conceal a churning answer set; `pass^k` cannot express it** | **Yes** | — |
 | **Binary success criteria hide the tolerance they assume for real-valued answers** | **Yes** | — |
 | Efficiency belongs alongside accuracy | **No** | HELM |
-| **At tied scores, cost separates by 2.11x at 15.6 pooled SDs** (one domain, n=3) | **Partly** | — |
+| **At tied scores, cost separates by 2.11x and 1.49x at 15.6 and 13.9 pooled SDs** (two domains, n=3 each) | **Partly** | — |
 | Professional-practice benchmarks in these Japanese domains | **Yes**, six of eight | ATLAS, BIM-Edit for the other two |

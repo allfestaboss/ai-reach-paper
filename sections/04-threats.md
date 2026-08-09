@@ -202,13 +202,28 @@ cross-domain comparison under one design, not classification accuracy.
 
 ## 4.4 What is not resolved
 
-- **Token variance is now measured in one domain and remains unmeasured in the
-  other seven.** `jiban` T002 was re-run at n = 3 per arm specifically to close
+- **Token variance is now measured in two domains and remains unmeasured in the
+  other six.** `jiban` T002 was re-run at n = 3 per arm specifically to close
   this gap (§3.2.2): consumption varies 4 to 5 percent between runs, and the
-  2.11x separation between arms is 15.6 pooled standard deviations. This
-  supersedes two earlier statements in this section — first that `cad` supplied
-  per-run token counts, which it does not, and then that no domain measured
-  variance at all, which is no longer true.
+  2.11x separation between arms is 15.6 pooled standard deviations. `kikai` T001
+  was then re-run under the same protocol: consumption varies 2.2 percent
+  (arm B) and 3.7 percent (arm C), and the 1.49x separation is 13.9 pooled
+  standard deviations with no overlap between the arms' ranges. Two domains,
+  measured independently, put run-to-run token variance in the low single
+  digits of a percent while the between-arm difference is more than an order of
+  magnitude larger. This supersedes two earlier statements in this section —
+  first that `cad` supplied per-run token counts, which it does not, and then
+  that no domain measured variance at all, which is no longer true.
+
+  **Both replicated domains put the execution arm on the cheap side, and `cad`
+  puts it on the expensive side; the replication does not resolve that
+  disagreement, because `cad` is the domain with no cost variance to compare
+  against.** What the `kikai` replication does add is that the direction depends
+  on the resource named: arm C used 0.67x the tokens while taking **1.56x the
+  wall-clock time** and 1.9x the tool calls. Executing code moves work out of the
+  context window and into a machine, and buys fewer tokens at the price of more
+  round trips. A cost claim about code execution that does not say which
+  resource it means is not falsifiable, and §3.2.2 states tokens throughout.
 
   Both earlier statements were wrong in the same way, and it is the way §3.1
   describes: **a claim about our own measurements that our own records did not
@@ -227,20 +242,26 @@ cross-domain comparison under one design, not classification accuracy.
   constrains the interpretation, in that no accuracy difference can be trading
   against cost, but it does not bound the variance.
 - **Cost is instrumented in four domains, at two different granularities, and
-  claimed for two.** §3.2.2 draws
-  its claims from `jiban` (trend across task size, n = 1 at each point) and `cad`
-  (n = 5 for score, per-arm means only for cost, one task); `kikai` and `bim` are reported as
-  consistent observations, and the `kikai` figure is contaminated by a defect of
-  ours (§3.1.3). The instrumentation exists in all eight; the runs have not been
-  redone.
-- **Repetition exists in three domains, and they do not measure the same
-  quantity.** §3.2.3 rests on `kanzei` (n = 5), `zeimu` (n = 5) and `jiban`
-  (n = 3); the `sekisan` 0 percent figure comes from a single task rather than a
-  full replication. More seriously, exact comparison is meaningful only where
-  the answer is discrete, so the `jiban` figure is stated relative to the
-  grader's tolerance and is not directly comparable with the other two. A
-  cross-domain reliability measure for real-valued answers would need a
-  tolerance convention that this series does not have.
+  claimed for three.** §3.2.2 draws
+  its claims from `jiban` (trend across task size, n = 1 at each point), `kikai`
+  (n = 3 per arm, one task) and `cad`
+  (n = 5 for score, per-arm means only for cost, one task); `bim` is reported as
+  a consistent observation. An earlier single-run `kikai` figure was withdrawn:
+  arm B's token count there included 551,489 tokens spent by subagents pursuing
+  a reference that did not exist, caused by a defect in our own parser. The
+  replication supersedes it. The instrumentation exists in all eight; the `cad`
+  and `bim` runs have not been redone, and the remaining four domains have no
+  repeated cost measurement at all.
+- **Repetition exists in four domains, and they do not measure the same
+  quantity.** §3.2.3 rests on `kanzei` (n = 5), `zeimu` (n = 5), `kikai` (n = 6,
+  three per arm) and `jiban` (n = 3); the `sekisan` 0 percent figure comes from a
+  single task rather than a full replication. More seriously, exact comparison
+  is meaningful only where the answer is discrete, so the `jiban` figure is
+  stated relative to the grader's tolerance and is not directly comparable with
+  the other three. A cross-domain reliability measure for real-valued answers
+  would need a tolerance convention that this series does not have. The three
+  discrete-answer domains span the full 0-to-82-percent range on their own, so
+  the spread is a property of the tasks and not an artefact of mixing metrics.
 - **`zeimu`'s replication is not written up in its own repository.** The five
   runs exist as data; the analysis in §3.2.3 was computed for this paper. An
   earlier informal reading of those runs, quoting 74 percent disagreement and a
@@ -248,5 +269,10 @@ cross-domain comparison under one design, not classification accuracy.
   benchmark's own normaliser: the values are 82 percent and a spread of 7.
   **The figures in §3.2.3 supersede it.**
 - **The defect count is a floor, not an estimate** (§4.1.1). Fifteen were found
-  in `kanzei` and four in `jiban`. Nothing here bounds what remains, in those
-  two domains or in the six where no defect has yet been reported.
+  in `kanzei`, four in `jiban`, and one in `kikai`. Nothing here bounds what
+  remains, in those three domains or in the five where no defect has yet been
+  reported. **The `kikai` one raises the floor in a way the others do not:** it
+  was found neither by a solver nor by our checks, but by noticing that six runs
+  lost the same points (§3.1.5). Every domain in this series except `kikai`,
+  `kanzei`, `zeimu` and `jiban` has been run once per arm, so that detector has
+  not been available in them at all.
