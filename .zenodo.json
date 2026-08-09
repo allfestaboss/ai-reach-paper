@@ -12,7 +12,7 @@
       "orcid": "0009-0007-8300-0039"
     }
   ],
-  "description": "<p>Benchmarks are known to contain incorrect ground truth, and models are already used to find it. That work concerns sparse annotation errors on individual instances, found statistically or by re-annotation. We report a class it does not reach: <strong>systematic errors in the program that derives a reference solution</strong>, which displace every case on the same code path identically. No correct majority remains for statistical detection, and re-annotation reproduces the error whenever it follows the same specified procedure. Such an error is equally invisible to the benchmark's own machinery: the grader compares against the reference, calibration recomputes it along that procedure, and adversarial cases are generated from it. All three are functions of the reference, and none can detect an error in it.</p><p>Evidence comes from eight benchmarks — 24 tasks spanning CAD, quantity surveying, geotechnical assessment, tolerancing, BIM, customs classification and tax law — built to one design in which inputs, procedure and reference solutions all come from national standards and administrative rulings. Fifteen defects were found on the examination side rather than in the answers, and <strong>fourteen by the solvers</strong>, which hold the raw inputs but not the answer key. In the sharpest case a reference integrated a geotechnical index below the bottom of the borehole, placing 60 percent of a reported value in undrilled depth; it passed the grader, passed calibration to a difference of zero, and passed twelve of twelve adversarial cases.</p><p>The same design measures how far three documented effects vary by domain. Supplying the governing material ranges from moving a task 25 to 97 out of 100 to changing none of 61. Where scores tie, cost does not, though not in a consistent direction. Answers change under identical repetition in 0 to 82 percent of cases, and half the unstable cases score identically across five runs by five different routes.</p><p><strong>Preprint.</strong> Not peer reviewed. The eight benchmarks it describes are archived separately and are listed in the related identifiers.</p>",
+  "description": "<p>Benchmarks are known to contain incorrect ground truth, and models are already used to find it. That work concerns sparse annotation errors on individual instances, found statistically or by re-annotation. We report a class it does not reach: <strong>systematic errors in the program that derives a reference solution</strong>, which displace every case on the same code path identically. No correct majority remains for statistical detection, and re-annotation reproduces the error whenever it follows the same specified procedure. Such an error is equally invisible to the benchmark's own machinery: the grader compares against the reference, calibration recomputes it along that procedure, and adversarial cases are generated from it. All three are functions of the reference, and none can detect an error in it.</p><p>Evidence comes from eight benchmarks — 24 tasks spanning CAD, quantity surveying, geotechnical assessment, tolerancing, BIM, customs classification and tax law — built to one design in which inputs, procedure and reference solutions all come from national standards and administrative rulings. Fifteen defects were found on the examination side rather than in the answers, and <strong>fourteen by the solvers</strong>, which hold the raw inputs but not the answer key. In the sharpest case a reference integrated a geotechnical index below the bottom of the borehole, placing 60 percent of a reported value in undrilled depth; it passed the grader, passed calibration to a difference of zero, and passed twelve of twelve adversarial cases.</p><p>Version 1.1.0 adds a defect that was reachable by <strong>neither</strong> detector. A graded question scored a field the task statement never mentioned, so no solver could report its omission, and the reference was not itself wrong, so no check flagged it. Our adversarial suite had already constructed that exact submission and classified it as an attack, scoring it 94.6/100 — the same score, on the same question, that all six honest solvers received. This sharpens the paper's central claim: the three checks are functions of the reference, but <strong>the task statement is not</strong>, so none of them can detect a disagreement between the two. A benchmark can be internally consistent to the last decimal place and still be grading answers to a question it did not ask.</p><p>The same design measures how far three documented effects vary by domain. Supplying the governing material ranges from moving a task 25 to 97 out of 100 to changing none of 61. Where scores tie, cost does not: in two domains replicated at n = 3 per configuration, scores tied while token consumption separated by 2.11x and 1.49x, at 15.6 and 13.9 pooled standard deviations. In one of the two, the configuration that is cheaper in tokens is more expensive in wall-clock time, so a single cost column cannot rank them. Answers change under identical repetition in 0 to 82 percent of cases, and half the unstable cases score identically across five runs by five different routes.</p><p><strong>Preprint.</strong> Not peer reviewed. The eight benchmarks it describes are archived separately and are listed in the related identifiers.</p>",
   "keywords": [
     "benchmark methodology",
     "ground truth",
@@ -26,13 +26,46 @@
     "AI Practical Reach Index"
   ],
   "related_identifiers": [
-    { "identifier": "10.5281/zenodo.21847239", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847241", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847243", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847245", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847247", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847249", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847251", "relation": "describes", "scheme": "doi" },
-    { "identifier": "10.5281/zenodo.21847358", "relation": "describes", "scheme": "doi" }
-  ]
+    {
+      "identifier": "10.5281/zenodo.21847239",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847241",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847243",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847245",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847247",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847249",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847251",
+      "relation": "describes",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.21847358",
+      "relation": "describes",
+      "scheme": "doi"
+    }
+  ],
+  "version": "1.1.0"
 }
