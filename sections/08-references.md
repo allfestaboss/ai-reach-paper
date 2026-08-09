@@ -37,9 +37,20 @@ Code: https://github.com/sierra-research/tau-bench
 *Transactions on Machine Learning Research*, August 2023.
 arXiv:2211.09110. https://arxiv.org/abs/2211.09110
 
+## Retrieval augmentation (§3.2.1, §5.1)
+
+[5a] **Evaluating the Effectiveness and Scalability of LLM-Based Data
+Augmentation for Retrieval.**
+arXiv:2509.16442. https://arxiv.org/abs/2509.16442
+*Cited for the finding that augmentation improves recall broadly while
+degrading ranking metrics for some task categories, and that benefits saturate
+with scale.*
+
 ## Domain benchmarks — customs classification (§5.2)
 
-[6] **ATLAS: Benchmarking and Adapting LLMs for Global Trade.**
+[6] P. Yuvraj and S. Devarakonda.
+**ATLAS: Benchmarking and Adapting LLMs for Global Trade via Harmonized Tariff
+Code Classification.**
 arXiv:2509.18400. https://arxiv.org/abs/2509.18400
 
 [7] **HSCodeComp: A Realistic and Expert-level Benchmark for Deep Search Agents
@@ -47,7 +58,8 @@ in Hierarchical Rule Application.**
 arXiv:2510.19631. https://arxiv.org/abs/2510.19631
 Dataset: `AIDC-AI/HSCodeComp`
 
-[8] **Benchmarking Harmonized Tariff Schedule Classification Models.**
+[8] B. Judy.
+**Benchmarking Harmonized Tariff Schedule Classification Models.**
 arXiv:2412.14179. https://arxiv.org/abs/2412.14179
 
 [9] **NoRMA: A Multi-agent Communication-Centric Dataset for Enhanced Customs
@@ -57,11 +69,14 @@ https://doi.org/10.1007/978-3-032-15632-7_18
 
 ## Domain benchmarks — architecture, engineering, construction (§5.2)
 
-[10] **BIM-Edit: Benchmarking Large Language Models for IFC-Based Building
+[10] B. K. Nithyanantham, C. Kujat, T. Sesterhenn, S. Telgmann, A. Nedungadi,
+J. Plönnigs, C. Bartelt and S. Lüdtke.
+**BIM-Edit: Benchmarking Large Language Models for IFC-Based Building
 Information Modeling.**
 arXiv:2606.20146. https://arxiv.org/abs/2606.20146
 
-[11] **AECV-Bench: Benchmarking Multimodal Models on Architectural and
+[11] A. Kondratenko, M. Birhane, H. E. Hsain and G. Maciocci.
+**AECV-Bench: Benchmarking Multimodal Models on Architectural and
 Engineering Drawings Understanding.**
 arXiv:2601.04819. https://arxiv.org/abs/2601.04819
 
@@ -135,12 +150,12 @@ https://www.customs.go.jp/
 
 ## Outstanding
 
-- **[6], [8], [10], [11]** — author lists not yet retrieved. The arXiv
-  identifiers are confirmed; the names must be filled from the papers before
-  submission.
-- **IgakuQA119** is cited in §1.2 by name. It is collected in [15] but its own
-  citable record has not been located. Either cite through [15] or drop it.
-- **Retrieval-augmentation literature** is referred to in §3.2.1 and §5.1 as a
-  body rather than by specific papers. At least one concrete citation is needed
-  for the claim that augmentation degrades some categories while improving
-  others.
+- **[6]** — the second author is recorded here as S. Devarakonda from a
+  secondary source. It has not been confirmed against the paper itself and
+  should be before any venue submission.
+- **IgakuQA119** is cited in §1.2 by name and is reached here through [15].
+  Its own citable record has not been located; if one exists it should replace
+  the indirect citation.
+- Reference numbering uses **[5a]** for the retrieval-augmentation entry so that
+  the existing numbers are not disturbed. Renumber when the manuscript is
+  finalised for a specific venue.

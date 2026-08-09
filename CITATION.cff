@@ -1,0 +1,81 @@
+cff-version: 1.2.0
+message: "本プレプリントを引用する場合は、以下を参照してください。 / If you cite this preprint, please use the following."
+type: article
+
+title: "Who checks the answer key? Ground-truth defects in eight professional-practice benchmarks"
+
+abstract: >-
+  Benchmarks are known to contain incorrect ground truth, and models are already
+  used to find it. That work concerns sparse annotation errors on individual
+  instances, found statistically or by re-annotation. We report a class it does
+  not reach: systematic errors in the program that derives a reference solution,
+  which displace every case on the same code path identically. No correct
+  majority remains for statistical detection, and re-annotation reproduces the
+  error whenever it follows the same specified procedure. Such an error is
+  equally invisible to the benchmark's own machinery: the grader compares
+  against the reference, calibration recomputes it along that procedure, and
+  adversarial cases are generated from it. All three are functions of the
+  reference, and none can detect an error in it.
+
+  Evidence comes from eight benchmarks — 24 tasks spanning CAD, quantity
+  surveying, geotechnical assessment, tolerancing, BIM, customs classification
+  and tax law — built to one design in which inputs, procedure and reference
+  solutions all come from national standards and administrative rulings. Fifteen
+  defects were found on the examination side rather than in the answers, and
+  fourteen by the solvers, which hold the raw inputs but not the answer key.
+
+authors:
+  - family-names: "Ohkubo"
+    given-names: "Boss"
+    affiliation: "Allfesta Corp."
+    orcid: "https://orcid.org/0009-0007-8300-0039"
+
+version: "1.0.0"
+date-released: "2026-08-10"
+license: CC-BY-4.0
+url: "https://github.com/allfestaboss/ai-reach-paper"
+repository-code: "https://github.com/allfestaboss/ai-reach-paper"
+
+keywords:
+  - benchmark methodology
+  - ground truth
+  - reference solution
+  - evaluation
+  - large language models
+  - professional practice
+  - reproducibility
+  - adversarial validation
+
+references:
+  - type: software
+    title: "jiban-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847239"
+  - type: software
+    title: "doboku-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847241"
+  - type: software
+    title: "sekisan-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847243"
+  - type: software
+    title: "zeimu-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847245"
+  - type: software
+    title: "kikai-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847247"
+  - type: software
+    title: "bim-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847249"
+  - type: software
+    title: "kanzei-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847251"
+  - type: software
+    title: "cad-bench"
+    authors: [{family-names: "Ohkubo", given-names: "Boss"}]
+    doi: "10.5281/zenodo.21847358"
