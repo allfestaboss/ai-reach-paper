@@ -82,29 +82,30 @@ find it. That work concerns sparse annotation errors on individual instances.
 We report a class it does not reach: systematic errors in the program deriving a
 reference solution, which displace every case on the same code path identically.
 No correct majority remains for statistical detection, and re-annotation
-reproduces the error whenever it follows the same procedure. Such an error is
-equally invisible to the benchmark's own machinery: the grader compares against
-the reference, calibration recomputes it along that procedure, and adversarial
-cases are generated from it. None can detect an error in it.
+reproduces the error whenever it follows the same procedure. It is equally
+invisible to the benchmark's own machinery: the grader compares against the
+reference, calibration recomputes it along that procedure, and adversarial cases
+are generated from it. None can detect an error in it.
 
 Evidence comes from eight benchmarks — 24 tasks spanning CAD, quantity
-surveying, geotechnical assessment, tolerancing, BIM, customs classification and
-tax law — built to one design in which inputs, procedure and reference solutions
-all come from national standards and administrative rulings. Fifteen defects
+surveying, geotechnics, tolerancing, BIM, customs classification and tax law —
+built to one design in which inputs, procedure and reference solutions all come
+from national standards and administrative rulings. Fifteen defects
 were found on the examination side rather than in the answers, and fourteen by
 the solvers, which hold the raw inputs but not the answer key. In the sharpest
 case a reference integrated a geotechnical index below the bottom of the
 borehole, placing 60 percent of a reported value in undrilled depth; it passed
-the grader, passed calibration to a difference of zero, and passed twelve of
-twelve adversarial cases.
+the grader, calibration to a difference of zero, and all twelve adversarial
+cases.
 
 The same design measures how far three documented effects vary by domain.
 Supplying the governing material ranges from moving a task 25 to 97 out of 100
-to changing none of 61. Where scores tie, cost does not, though not in a
-consistent direction. Answers change under identical repetition in 0 to 82
-percent of cases, and half the unstable cases score identically across
-five runs by five different routes. All eight benchmarks, their defect records
-and run logs are released with persistent identifiers.
+to changing none of 61. Where scores tie, cost does not: six runs of one task all
+scored 100/100 while the two configurations differed 2.11x in tokens, a gap 15.6
+pooled standard deviations wide. Answers change under identical repetition in 0 to 82
+percent of cases, half of them scoring identically by different routes. All
+eight benchmarks, their defect records and run logs are released with persistent
+identifiers.
 
 ## v1 から何が変わったか
 

@@ -97,8 +97,34 @@ The tariff schedule parser was corrected four times. In the geotechnical
 benchmark, a further four defects were reported by solvers in a single round,
 all confirmed (§3.1.2 is the third of them).
 
-One defect was an operator error and is recorded because the failure mode
-generalises. The tariff data was maintained as two artefacts — a structured
+A later round supplies a cleaner instance, because the defects were introduced
+knowingly-in-form and unknowingly-in-fact. The `jiban` replication of §3.2.2 was
+issued with a worked example in the instructions. That example carried three
+errors, all ours: its quantities were labelled as one seismic case while their
+values belonged to another, the path it gave for the input files did not match
+where they were placed, and it typed a numeric identifier as a string. **All six
+solvers reported the first; three reported the second; none reported the third,
+which surfaced only when every submission scored zero** — the grader could not
+match a string identifier to an integer one, and reported the submissions as
+empty rather than as mistyped.
+
+The third is the instructive one. The solvers had followed the specification
+exactly; the specification was wrong; and the failure presented as six identical
+total failures, which is the signature of an examination defect rather than a
+solver defect. A grader that reports *why* it found nothing distinguishes these
+two cases immediately, and ours did.
+
+The first error had an effect we did not anticipate. The example's internal
+inconsistency made its numbers unusable as data — and four of the six solvers
+used it anyway, as an arithmetic check: the difference between its total and
+effective stress fixes the unit weight of water at 9.8 rather than 9.81. Two
+stated explicitly that they had been about to use 9.81 from memory. **A broken
+example prevented an error of recall in the majority of runs**, which is not an
+argument for broken examples but is a data point about where these systems take
+their constraints from.
+
+One earlier defect was an operator error and is recorded because the failure
+mode generalises. The tariff data was maintained as two artefacts — a structured
 file and a plain-text file — and only the structured file was regenerated when
 the parser was fixed. The stale plain text, in which **318 tariff codes were
 indistinguishable**, was distributed to solvers for three rounds. One solver's
@@ -184,29 +210,35 @@ one of seven metrics measured for every scenario, and cost-per-task now appears
 as a default column on public leaderboards. The observation here concerns what
 happens **after scores have saturated**.
 
-**Scope of this claim.** Cost was recorded from single runs, and we show
-elsewhere that single runs are unreliable in this series (§4.2.1). Token
-consumption is if anything less stable than score: §4.2.3 reports that arms
-spawned four, six and five subagents on three runs of one task, which alone
-moves consumption substantially. **We therefore make the claim only for
-`jiban`**, where the scores are *exactly* equal so that no accuracy difference
-can be trading against cost, and where the effect is visible as a *trend across
-task size* rather than as a single ratio. The other two domains are reported as
-consistent observations, not as measurements.
+**A replicated measurement.** `jiban` T002 was subsequently re-run three times
+for each of arms B and C, under the isolation conditions of §2.4 and with
+subagent spawning explicitly prohibited, so that the confound in §4.2.3 does not
+apply. **All six runs scored 100 out of 100.** Reported liquefaction potential
+indices agreed across all six to within 0.002 percent — arm C reproduced itself
+to within 4e-6, arm B, computing by hand, drifted by up to 2.6e-4.
 
-In `jiban`, arms B, C and D all reached 100/100 on both tasks. Enlarging the
-task 8.7-fold in assessable points grew arm B's token use 3.3x and arm C's 1.8x
-— both sublinear, at different rates — so the unit cost separated as the task
-grew:
+| | tokens (3 runs) | mean | SD | CV | tool calls |
+|---|---|---|---|---|---|
+| arm B (no execution) | 230,707 / 225,229 / 243,547 | **233,161** | 9,402 | 4.0% | 15.7 |
+| arm C (execution permitted) | 115,948 / 104,220 / 111,282 | **110,483** | 5,905 | 5.3% | 26.0 |
 
-```
-T001 (6 points)     arm C  ~1,245 tok/point     arm B  ~1,705 tok/point     gap 1.37x
-T002 (52 points)    arm C   1,705 tok/point     arm B   4,392 tok/point     gap 2.6x
-```
+**The separation is 2.11x, and the difference of 122,678 tokens is 15.6 times
+the pooled standard deviation.** Run-to-run variation in consumption is real —
+4 to 5 percent — and it is nowhere near large enough to account for the gap.
+This supersedes an earlier version of this paper, which reported that we could
+not determine whether the difference exceeded variance (§4.4).
 
-The trend is the claim: **at identical scores, the cheaper configuration
-remained cheaper and the gap widened with task size.** A single-run ratio would
-not support this; two points on a size axis, both at tied scores, do.
+Note the direction of the tool-call count: **arm B made fewer tool calls and
+consumed more than twice the tokens.** Prohibited from executing code, it
+carried the arithmetic in context instead. What execution purchases here is the
+replacement of in-context computation with delegated computation, and the
+purchase is favourable by a factor of two.
+
+The trend across task size, measured earlier at n = 1, is consistent with this:
+enlarging the task 8.7-fold in assessable points grew arm B's token use 3.3x and
+arm C's 1.8x, so the unit-cost gap widened from 1.37x to 2.6x. That
+trend rests on single runs and is reported as corroboration, not as
+measurement.
 
 Two further observations are consistent with it and are reported as such. In
 `kikai`, arm C covered 6 of 6 files against arm B's 5 of 6 while consuming

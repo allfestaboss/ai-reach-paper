@@ -104,11 +104,14 @@ Isolation rules were written into the protocol only after this was found.
 
 ### 4.2.3 Arms spawned subagents at differing widths
 
-During the replication the arms launched parallel subagents: four in run 3, six
-in run 4, five in run 5. This was not prohibited and is not a protocol
-violation, but the observed variance carries a component from the arm's internal
-parallelism, which was neither controlled nor recorded. Later protocols state
-explicitly whether subagents are permitted.
+During the `kanzei` replication the arms launched parallel subagents: four in
+run 3, six in run 4, five in run 5. This was not prohibited and is not a
+protocol violation, but the observed variance carries a component from the arm's
+internal parallelism, which was neither controlled nor recorded.
+
+The `jiban` replication reported in §3.2.2 prohibited subagents explicitly in
+the arm's instructions, so its variance figures are not subject to this
+confound. The `kanzei` figures are.
 
 ### 4.2.4 The validator arm did not hold its tooling constant
 
@@ -199,20 +202,22 @@ cross-domain comparison under one design, not classification accuracy.
 
 ## 4.4 What is not resolved
 
-- **Token variance between runs was never measured, in any domain.** This
-  correction supersedes an earlier statement in this section. `cad` T004 was run
-  five times per arm and the per-run *scores* were retained, but the token
-  counts were recorded only as per-arm means; the individual runs' consumption
-  was not kept. `jiban` reports a trend across two task sizes from single runs.
-  **No domain in this series supplies a distribution of token consumption**, so
-  the widening from 1.37 to 2.6 in §3.2.2 cannot be compared against run-to-run
-  variance. The tie at 100/100 at both sizes constrains the interpretation, in
-  that no accuracy difference can be trading against cost, but it does not bound
-  the variance.
+- **Token variance is now measured in one domain and remains unmeasured in the
+  other seven.** `jiban` T002 was re-run at n = 3 per arm specifically to close
+  this gap (§3.2.2): consumption varies 4 to 5 percent between runs, and the
+  2.11x separation between arms is 15.6 pooled standard deviations. This
+  supersedes two earlier statements in this section — first that `cad` supplied
+  per-run token counts, which it does not, and then that no domain measured
+  variance at all, which is no longer true.
 
-  The gap was found while auditing the repositories after this section was
-  first written, which is the same failure mode as §3.1: a claim about our own
-  measurements that our own records did not support. §3.2.2 reports a trend
+  Both earlier statements were wrong in the same way, and it is the way §3.1
+  describes: **a claim about our own measurements that our own records did not
+  support.** The first was caught by auditing the repositories, the second by
+  running the measurement rather than reasoning about it.
+
+  `cad` T004 retains per-run *scores* at n = 5 but recorded cost only as per-arm
+  means, so it cannot contribute a variance estimate. The remaining six domains
+  have no repeated cost measurement. §3.2.2 reports a trend
   across two task sizes, but both points are single runs. We know score varies
   between runs (§4.2.1) and we know at least one source of token variance
   operated during this series — arms spawning four, six and five subagents on
