@@ -79,8 +79,8 @@ run logs are released under permissive terms with persistent identifiers.
 
 Benchmarks are known to contain incorrect ground truth, and models are used to
 find it. That work concerns sparse annotation errors on individual instances.
-We report a class it does not reach: systematic errors in the program deriving a
-reference solution, which displace every case on the same code path identically.
+We report a class it does not reach: systematic errors in the program deriving the
+reference, which displace every case on the same code path identically.
 No correct majority remains for statistical detection, and re-annotation
 reproduces the error whenever it follows the same procedure. It is equally
 invisible to the benchmark's own machinery: the grader compares against the
