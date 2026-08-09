@@ -219,11 +219,13 @@ Neither is a controlled measurement of cost.
 A benchmark reporting only score would record the `jiban` configurations as
 equivalent at both task sizes.
 
-**A replicated measurement, and what the extra cost buys.** One domain does
-carry cost at n = 5. In `cad`, task T004 was run five times for each of arms A,
-B and C, so the distribution is available rather than a point:
+**A replicated measurement, and what the extra cost buys.** In `cad`, task T004
+was run five times for each of arms A, B and C. The *scores* are therefore a
+distribution rather than a point. The *costs* are not: they were retained only
+as per-arm means over the five runs, so the figures below are averages and no
+spread is available for them (§4.4).
 
-| | tokens / run | tool calls / run | median | worst |
+| | mean tokens / run | mean tool calls / run | median score | worst score |
 |---|---|---|---|---|
 | arm B (one-shot) | 107,929 | 9.2 | 99.6% | 91.1% |
 | arm C (execution permitted) | 184,379 | 57.6 | **100.0%** | **97.2%** |

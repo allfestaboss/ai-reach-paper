@@ -199,11 +199,20 @@ cross-domain comparison under one design, not classification accuracy.
 
 ## 4.4 What is not resolved
 
-- **Token variance between runs is measured in one domain only.** `cad` T004
-  supplies per-run token counts at n = 5 (§3.2.2); the trend reported for
-  `jiban` does not, and the two domains disagree on the direction of the
-  cost difference, so neither substitutes for the other.
-- **Token variance between runs was otherwise never measured.** §3.2.2 reports a trend
+- **Token variance between runs was never measured, in any domain.** This
+  correction supersedes an earlier statement in this section. `cad` T004 was run
+  five times per arm and the per-run *scores* were retained, but the token
+  counts were recorded only as per-arm means; the individual runs' consumption
+  was not kept. `jiban` reports a trend across two task sizes from single runs.
+  **No domain in this series supplies a distribution of token consumption**, so
+  the widening from 1.37 to 2.6 in §3.2.2 cannot be compared against run-to-run
+  variance. The tie at 100/100 at both sizes constrains the interpretation, in
+  that no accuracy difference can be trading against cost, but it does not bound
+  the variance.
+
+  The gap was found while auditing the repositories after this section was
+  first written, which is the same failure mode as §3.1: a claim about our own
+  measurements that our own records did not support. §3.2.2 reports a trend
   across two task sizes, but both points are single runs. We know score varies
   between runs (§4.2.1) and we know at least one source of token variance
   operated during this series — arms spawning four, six and five subagents on
@@ -212,9 +221,10 @@ cross-domain comparison under one design, not classification accuracy.
   1.37 to 2.6 exceeds run-to-run variance.** The tie at 100/100 at both sizes
   constrains the interpretation, in that no accuracy difference can be trading
   against cost, but it does not bound the variance.
-- **Cost is instrumented in four domains and claimed for two.** §3.2.2 draws
+- **Cost is instrumented in four domains, at two different granularities, and
+  claimed for two.** §3.2.2 draws
   its claims from `jiban` (trend across task size, n = 1 at each point) and `cad`
-  (distribution at n = 5, one task); `kikai` and `bim` are reported as
+  (n = 5 for score, per-arm means only for cost, one task); `kikai` and `bim` are reported as
   consistent observations, and the `kikai` figure is contaminated by a defect of
   ours (§3.1.3). The instrumentation exists in all eight; the runs have not been
   redone.
