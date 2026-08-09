@@ -1,0 +1,15 @@
+NOTICE — ライセンスの適用範囲 / Scope of the licence
+==============================================
+
+本リポジトリの本文（原稿・表・図）は CC BY 4.0。全文は LICENSE にある。
+The manuscript in this repository is licensed CC BY 4.0; the full legal code
+is in LICENSE.
+
+NOTE ON SCOPE
+
+This licence covers the manuscript only. The eight benchmarks this paper
+describes are released separately under the MIT licence, each with its own
+persistent identifier; the data bundled with them retains the terms of its
+respective source. See each benchmark's own LICENSE and NOTICE.
+
+`build.py` in this repository is released under the MIT licence.
