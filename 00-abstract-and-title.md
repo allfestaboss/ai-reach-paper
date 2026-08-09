@@ -100,9 +100,9 @@ cases.
 
 The same design measures how far three documented effects vary by domain.
 Supplying the governing material ranges from moving a task 25 to 97 out of 100
-to changing none of 61. Where scores tie, cost does not: six runs of one task all
-scored 100/100 while the two configurations differed 2.11x in tokens, a gap 15.6
-pooled standard deviations wide. Answers change under identical repetition in 0 to 82
+to changing none of 61. Where scores tie, cost does not: six runs of one task
+all scored 100/100 while the two configurations differed 2.11x in tokens, 15.6
+pooled SDs apart. Answers change under identical repetition in 0 to 82
 percent of cases, half of them scoring identically by different routes. All
 eight benchmarks, their defect records and run logs are released with persistent
 identifiers.
