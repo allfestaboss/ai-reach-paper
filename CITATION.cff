@@ -33,6 +33,17 @@ authors:
 version: "1.0.0"
 date-released: "2026-08-10"
 license: CC-BY-4.0
+
+# この版（v1.0.0）を指す DOI
+doi: "10.5281/zenodo.21862232"
+
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21862231"
+    description: "Concept DOI — 常に最新版に解決する。引用にはこちら。"
+  - type: doi
+    value: "10.5281/zenodo.21862232"
+    description: "Version DOI — v1.0.0 を指す。"
 url: "https://github.com/allfestaboss/ai-reach-paper"
 repository-code: "https://github.com/allfestaboss/ai-reach-paper"
 

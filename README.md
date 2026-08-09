@@ -1,5 +1,8 @@
 # ai-reach-paper
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21862231.svg)](https://doi.org/10.5281/zenodo.21862231)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
+
 「AI実務到達度インデックス」の方法論論文。8本のベンチマークを横断して得た所見と、
 その過程で見つかったベンチマーク自身の欠陥についての報告。
 
@@ -55,13 +58,27 @@ refs/
 - [x] 節参照の整合、章をまたぐ数値の整合、DOI 9本の照合
 - [ ] **参考文献リスト**（本文で13件を名前で挙げているが書誌が無い）
 - [ ] 1本の文書への組み上げ
-- [ ] 投稿先の決定（cs.SE を想定）
+- [x] Zenodo にプレプリントとして公開（DOI 取得済み）
+- [ ] arXiv 投稿（主分類 cs.SE、cs.CL にクロスリスト）— endorsement 待ち
 
 ## 投稿先について
 
 **cs.SE を想定している。** 主張が「ベンチマークという成果物の検証可能性」であり、
 評価対象がモデルではなく測定器そのものだから。cs.CL に出すと
 「どのモデルが強いのか」という読まれ方をされやすく、この論文はそこに答えない。
+
+## 引用
+
+```
+Ohkubo, B. (Allfesta Corp.) (2026). Who checks the answer key?
+Ground-truth defects in eight professional-practice benchmarks.
+Zenodo. https://doi.org/10.5281/zenodo.21862231
+```
+
+| | DOI |
+|---|---|
+| Concept（常に最新版・引用用） | `10.5281/zenodo.21862231` |
+| Version (v1.0.0) | `10.5281/zenodo.21862232` |
 
 ## ライセンス
 
