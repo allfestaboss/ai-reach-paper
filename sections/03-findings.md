@@ -292,12 +292,34 @@ work has built on it.
 
 Across domains, holding conditions identical:
 
-| Domain | Runs | Cases whose answer changes |
-|---|---|---|
-| Quantity takeoff (`sekisan`) | 5 | **0%** — task S005 identical to the character |
-| Customs classification (`kanzei`) | 5 | **25%** — 46/61 identical every time |
-| Tax provision retrieval (`zeimu`) | 5 | **82%** — 14/78 identical every time |
+| Domain | Answer type | Runs | Cases whose answer changes |
+|---|---|---|---|
+| Quantity takeoff (`sekisan`) | quantities | 5 | **0%** — task S005 identical to the character |
+| Geotechnical assessment (`jiban`) | vector of reals | 3 | **0%** at the grader's tolerance; **100%** at exact match |
+| Customs classification (`kanzei`) | one discrete code | 5 | **25%** — 46/61 identical every time |
+| Tax provision retrieval (`zeimu`) | set of provisions | 5 | **82%** — 14/78 identical every time |
 
+**The `jiban` row is not commensurable with the others, and neither, on
+inspection, are the rest.** Where the answer is a discrete code (`kanzei`) or a
+set of identifiers (`zeimu`), "the same answer" is well defined and exact
+comparison is the natural test. Where the answer is a vector of real numbers
+(`jiban`), exact comparison is not a meaningful test: none of the six `jiban`
+runs reproduced another to the last digit, while all eight cases agreed within
+the grader's tolerance of one percent. Measured at four significant figures, the
+arm permitted to execute code agreed with itself on all eight cases and the arm
+computing by hand agreed on none.
+
+So the figure for a real-valued domain is a function of the tolerance, and the
+0-to-82-percent spread reported here mixes two kinds of measurement. `sekisan`
+is the one real-valued case that is exactly reproducible — its output was
+byte-identical across five runs — which suggests the distinction is not purely
+an artefact of the metric: a task whose rule fully determines a rounded output
+can be exactly stable, while one requiring an unrounded chain of computation is
+stable only to a stated precision. **A cross-domain reliability figure needs to
+state its tolerance, and the literature convention of a binary success criterion
+hides that it is doing so.**
+
+Restricting attention to the two domains where exact comparison is meaningful:
 `kanzei` scored 41, 42, 39, 41, 42 (range 3, SD 1.10) across the five runs. The
 score is stable to about a point; the answers are not. Decomposed by behaviour
 across runs, 35 cases are right every time, 11 wrong every time, and 15 depend

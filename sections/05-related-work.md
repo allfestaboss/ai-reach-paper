@@ -92,8 +92,15 @@ retail agent tasks. The metric has been widely adopted, including in model
 cards, and subsequent work has extended reliability evaluation to long-horizon
 tasks and to production-like stress conditions.
 
-§3.2.3 measures the same axis across eight domains rather than within one, and
-reports one pattern the metric cannot represent. `pass^k` reduces each trial to
+§3.2.3 measures the same axis across several domains rather than within one, and
+reports two things the metric does not express. The first is a limit of the
+binary criterion itself: `pass^k` asks whether a run succeeded, so where the
+answer is a vector of real numbers it must be evaluated against a tolerance, and
+that tolerance disappears into the definition of success. Our `jiban` figures
+change from 0 to 100 percent depending on where it is set (§3.2.3). A
+reliability number for a real-valued task is not interpretable without it.
+
+The second is a pattern the criterion cannot represent at all. `pass^k` reduces each trial to
 success or failure. Where the answer is a set — the statutory provisions relied
 upon, in `zeimu` — a case can score identically on five runs while returning a
 different set each time, by exchanging one correct element for another. Half the
@@ -127,6 +134,7 @@ this claim for one domain only.
 | Retrieval and augmentation help unevenly, sometimes negatively | **No** | Retrieval augmentation literature |
 | Reliability under repetition is an evaluation axis | **No** | τ-bench and successors |
 | **A stable score can conceal a churning answer set; `pass^k` cannot express it** | **Yes** | — |
+| **Binary success criteria hide the tolerance they assume for real-valued answers** | **Yes** | — |
 | Efficiency belongs alongside accuracy | **No** | HELM |
-| **At tied scores, the cost gap widens with task size** (one domain, two sizes) | **Partly** | — |
+| **At tied scores, cost separates by 2.11x at 15.6 pooled SDs** (one domain, n=3) | **Partly** | — |
 | Professional-practice benchmarks in these Japanese domains | **Yes**, six of eight | ATLAS, BIM-Edit for the other two |

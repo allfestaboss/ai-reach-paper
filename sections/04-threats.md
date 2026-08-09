@@ -233,10 +233,14 @@ cross-domain comparison under one design, not classification accuracy.
   consistent observations, and the `kikai` figure is contaminated by a defect of
   ours (§3.1.3). The instrumentation exists in all eight; the runs have not been
   redone.
-- **Repetition exists in two domains.** §3.2.3 rests on `kanzei` and `zeimu`.
-  The claim that non-determinism is domain-dependent would be considerably
-  stronger with a third and fourth measurement, and the `sekisan` 0 percent
-  figure comes from a single task rather than a full replication.
+- **Repetition exists in three domains, and they do not measure the same
+  quantity.** §3.2.3 rests on `kanzei` (n = 5), `zeimu` (n = 5) and `jiban`
+  (n = 3); the `sekisan` 0 percent figure comes from a single task rather than a
+  full replication. More seriously, exact comparison is meaningful only where
+  the answer is discrete, so the `jiban` figure is stated relative to the
+  grader's tolerance and is not directly comparable with the other two. A
+  cross-domain reliability measure for real-valued answers would need a
+  tolerance convention that this series does not have.
 - **`zeimu`'s replication is not written up in its own repository.** The five
   runs exist as data; the analysis in §3.2.3 was computed for this paper. An
   earlier informal reading of those runs, quoting 74 percent disagreement and a
