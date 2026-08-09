@@ -1,0 +1,198 @@
+<title>査読 第2回 ── 修正稿を読み直す</title>
+<style>
+  :root{
+    --paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA;
+    --ink:#1A2A2C; --muted:#5C6A6B; --rule:#C3BFB2;
+    --accent:#1F5C55; --accent-soft:#D6E0DA;
+    --accent-2:#8A3B2E; --warn:#9A6B1E;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;
+    --mono:"SFMono-Regular","SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C; --ink:#DCE4E2;
+      --muted:#8B9B9B; --rule:#2E3C3D; --accent:#74B7A7; --accent-soft:#1D3230;
+      --accent-2:#C87F68; --warn:#C4A05F;}
+  }
+  :root[data-theme="light"]{--paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA; --ink:#1A2A2C;
+    --muted:#5C6A6B; --rule:#C3BFB2; --accent:#1F5C55; --accent-soft:#D6E0DA; --accent-2:#8A3B2E; --warn:#9A6B1E;}
+  :root[data-theme="dark"]{--paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C; --ink:#DCE4E2;
+    --muted:#8B9B9B; --rule:#2E3C3D; --accent:#74B7A7; --accent-soft:#1D3230; --accent-2:#C87F68; --warn:#C4A05F;}
+
+  body{background:var(--paper); color:var(--ink); font-family:var(--gothic);
+    line-height:1.85; font-size:16px; -webkit-font-smoothing:antialiased; padding:0 24px 96px;}
+  .wrap{max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:46px;}
+  header.mast{padding:70px 0 0; display:flex; flex-direction:column; gap:18px;}
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--muted); display:flex; gap:14px; flex-wrap:wrap;}
+  .eyebrow span.sep{opacity:.45;}
+  h1{font-family:var(--mincho); font-weight:600; font-size:clamp(27px,4.6vw,38px);
+    line-height:1.42; text-wrap:balance; margin:0;}
+  .standfirst{font-size:16.5px; color:var(--muted); max-width:64ch;
+    border-left:2px solid var(--accent); padding-left:18px;}
+
+  section{display:flex; flex-direction:column; gap:16px;}
+  h2{font-family:var(--mincho); font-weight:600; font-size:21px; margin:0;
+    padding-bottom:11px; border-bottom:1px solid var(--rule);}
+  p{margin:0; max-width:68ch;} strong{font-weight:700;}
+  .u{background:linear-gradient(transparent 62%, var(--accent-soft) 62%); font-weight:700;}
+
+  .verdict{display:flex; flex-wrap:wrap; gap:1px; background:var(--rule); border:1px solid var(--rule);}
+  .verdict > div{background:var(--paper-2); padding:18px 20px; flex:1 1 175px; display:flex; flex-direction:column; gap:5px;}
+  .verdict .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);}
+  .verdict .v{font-family:var(--mincho); font-size:22px; font-weight:600; line-height:1.2;}
+  .verdict .v.bad{color:var(--accent-2);} .verdict .v.ok{color:var(--accent);} .verdict .v.mid{color:var(--warn);}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--rule); background:var(--paper-2);}
+  table{border-collapse:collapse; width:100%; min-width:640px; font-size:14px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  thead th{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); background:var(--paper-3); font-weight:500; white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.s{font-family:var(--mono); font-size:11.5px; white-space:nowrap;}
+  .done{color:var(--accent); font-weight:700;} .part{color:var(--warn); font-weight:700;} .open{color:var(--accent-2); font-weight:700;}
+
+  .item{background:var(--paper-2); border:1px solid var(--rule); border-left:3px solid var(--warn);
+    padding:22px 24px; display:flex; flex-direction:column; gap:11px;}
+  .item.ok{border-left-color:var(--accent);}
+  .item.bad{border-left-color:var(--accent-2);}
+  .item .tag{font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);}
+  .item .h{font-family:var(--mincho); font-size:18px; font-weight:600; line-height:1.5;}
+  .item p{font-size:14.5px;}
+  .item .fix{background:var(--paper-3); border:1px solid var(--rule); padding:13px 16px; font-size:14px;}
+  .item .fix b{color:var(--accent);}
+  blockquote{margin:0; padding:10px 16px; border-left:2px solid var(--rule); font-size:14px; color:var(--muted); font-style:italic;}
+  ul{margin:0; padding-left:1.3em; display:flex; flex-direction:column; gap:7px; max-width:68ch; font-size:14.5px;}
+  li::marker{color:var(--accent);}
+  code{font-family:var(--mono); font-size:.9em; background:var(--paper-3); padding:1px 5px; border:1px solid var(--rule);}
+  footer{border-top:1px solid var(--rule); padding-top:24px; font-size:12.5px; color:var(--muted); line-height:1.75;}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow"><span>2026-08-09</span><span class="sep">/</span><span>査読 第2回</span>
+      <span class="sep">/</span><span>修正稿</span></div>
+    <h1>10件中8件が解消。残る2件は、<br>正直に書いたことで格上げされている。</h1>
+    <p class="standfirst">
+      前回の致命的2件・重大4件・軽微4件を読み直した。<strong>8件は解消</strong>。
+      残る2件は消えていないが、<span class="u">隠された欠陥から、宣言された限界に変わった</span>。
+      査読上はこれが決定的な違いで、判定は <strong>Major revision → Accept with minor revisions</strong> に動く。
+    </p>
+  </header>
+
+  <section>
+    <div class="verdict">
+      <div><span class="k">前回</span><span class="v mid">Major revision</span></div>
+      <div><span class="k">今回</span><span class="v ok">Minor revisions</span></div>
+      <div><span class="k">解消</span><span class="v ok">8 / 10</span></div>
+      <div><span class="k">残存</span><span class="v mid">2 件</span><span class="k">いずれも宣言済み</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>前回指摘の処理状況</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>#</th><th>指摘</th><th>状態</th><th>どう直ったか</th></tr></thead>
+        <tbody>
+          <tr><td class="s">Fatal 1</td><td>モデル未記載</td><td class="s part">部分解消</td>
+            <td>§2.6 を新設。<strong>「これは書式の未記入ではなく研究の欠陥である」</strong>と明記し、§3.1 は影響を受けず §3.2 は受けると切り分けた</td></tr>
+          <tr><td class="s">Fatal 2</td><td>n=1 のコスト比</td><td class="s done">解消</td>
+            <td>主張を jiban 1業種に限定。<strong>単一の比ではなく「課題規模に対する傾向」</strong>として提示。kikai の 4.9倍は自前パーサ由来の 551,489 トークンを含むと自ら開示</td></tr>
+          <tr><td class="s">Major 1</td><td>中心命題が a priori</td><td class="s done">解消</td>
+            <td>§3.1 冒頭で自明性を先に認め、実証が足す3点を列挙。<strong>「納得した読者は §3.1.2 へ飛べ」</strong>まで書いた</td></tr>
+          <tr><td class="s">Major 2</td><td>§3.3 の過剰主張</td><td class="s done">解消</td>
+            <td>改題し、<strong>「他7業種で確認していない、シリーズの性質として読むな」</strong>を本文に追加</td></tr>
+          <tr><td class="s">Major 3</td><td>14対1 の選択効果</td><td class="s done">解消</td>
+            <td>「最も有効」→<strong>「この設計で唯一機能した検出器」</strong>。選択効果と標本サイズの限界を自分で書いた</td></tr>
+          <tr><td class="s">Major 4</td><td>業種が独立標本でない</td><td class="s done">解消</td>
+            <td>§4.3.4 を新設。<strong>doboku の 25→97 が「形式が未知」でなく「armA への仕様が薄かった」で説明できる可能性</strong>を明記</td></tr>
+          <tr><td class="s">Minor 1</td><td>数値の基準点が無い</td><td class="s open">未対応</td><td>—</td></tr>
+          <tr><td class="s">Minor 2</td><td>仮説の事後性</td><td class="s done">解消</td><td>§6.1 冒頭に斜体で宣言</td></tr>
+          <tr><td class="s">Minor 3</td><td>提案に採用経路が無い</td><td class="s done">解消</td><td><strong>「自分に先に適用してから提案している」</strong>を追加</td></tr>
+          <tr><td class="s">Minor 4</td><td>課題数の内訳が無い</td><td class="s done">解消</td><td>§2.5 の表に課題数と腕を統合</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>残る2件</h2>
+
+    <div class="item">
+      <div class="tag">Remaining 1 — §2.6</div>
+      <div class="h">モデルは依然として不明。ただし性質が変わった。</div>
+      <p>
+        測定対象が特定できない以上、§3.2 の数値は再現不能である。これは直っていない。
+      </p>
+      <p>
+        しかし<strong>査読上の扱いは変わる。</strong>前回は「著者が書き忘れた」に見えた。
+        いまは「記録されていなかったという事実を、影響範囲を切り分けたうえで報告している」になっている。
+        とくに<span class="u">「§3.1 は影響を受けない — 査読で確認された欠陥は欠陥である」</span>という切り分けは正しく、
+        主要な貢献を守っている。
+      </p>
+      <div class="fix"><b>残る作業 —</b> <code>[TO BE COMPLETED BEFORE SUBMISSION]</code> の見出しは投稿前に外すこと。
+        表の「not recorded」はそのまま残してよい。<strong>思い出せるなら書く</strong>が、
+        <span class="u">記憶で補うくらいなら「記録されていない」のまま出すほうが良い</span>。この論文の主張と整合する。</div>
+    </div>
+
+    <div class="item">
+      <div class="tag">Remaining 2 — §3.2.2</div>
+      <div class="h">jiban に絞ってもなお、2点とも n=1 である。</div>
+      <p>
+        傾向として提示したのは正しい対処だが、<strong>T001 と T002 のどちらも単一実行</strong>である。
+        査読者はこう書きうる ——
+      </p>
+      <blockquote>
+        単一実行の2点を結んだ傾向は、2点を結んだ直線にすぎない。
+        トークン消費の run 間分散が未測定である以上、1.37 → 2.6 の広がりが
+        分散の範囲内かどうかを著者は言えない。
+      </blockquote>
+      <p>
+        ただし<strong>点数が完全一致（100/100）していることは強い制約</strong>で、
+        「精度を落として安くした」の可能性は排除されている。そこは効いている。
+      </p>
+      <div class="fix"><b>選択肢 —</b> (a) jiban T002 を n=3 で回す（半日、これで完全に閉じる）／
+        (b) §4.4 の未解決に<strong>「トークンの run 間分散は未測定」</strong>を1行追加して出す。
+        <span class="u">(b) で十分通る</span>。主張が「傾向」まで後退しており、査読者の反論も §4.4 に書いてあることの反復になるため。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>今回あらためて評価する点</h2>
+    <ul>
+      <li><strong>Fatal 2 の直し方が模範的だった。</strong> 主張を弱めるのではなく<em>範囲を絞った</em>。
+        しかも絞った結果、jiban の「2つの課題規模で同点」という設計上の強みが前に出てきて、<span class="u">主張は短くなったが硬くなった</span></li>
+      <li><strong>kikai の 551,489 トークンを自ら開示した。</strong>
+        これは自前パーサのバグが腕に無駄な追跡をさせた分で、黙っていれば 4.9倍という大きい数字が使えた。
+        <strong>自分に不利な訂正を自分で出している箇所が、この論文にはすでに4つある</strong>
+        （zeimu 74→82、armC/armD のノイズ、汚染の自己申告、そしてこれ）</li>
+      <li><strong>§4.3.4 の書き方が良い。</strong> 「業種が独立でない」を抽象的に書かず、
+        <em>doboku の主要数値が別の説明を許す</em>という具体形で書いた。自分の一番目立つ数字に自分で疑いをかけている</li>
+      <li><strong>§3.1 冒頭の「読者は飛ばしてよい」</strong>は珍しいが効果的。
+        命題の自明性を争点から外し、実証部分に議論を集中させる</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>次にやること</h2>
+    <ul>
+      <li><strong>1. `[TO BE COMPLETED]` を外す</strong>（投稿直前・5分）</li>
+      <li><strong>2. §4.4 に「トークンの run 間分散は未測定」を1行</strong>（5分）— これで Remaining 2 が閉じる</li>
+      <li>3. Minor 1（基準点）は任意。既知ベンチの成績を1つ載せると読者が数値を位置づけられるが、
+        モデルが不明な現状では載せられない。<strong>Remaining 1 と同時にしか解けない</strong></li>
+      <li>4. 残りは投稿先を決めてからの体裁作業（参考文献の形式、図表番号、語数調整）</li>
+    </ul>
+    <p style="margin-top:6px">
+      <strong>1と2で計10分。それで投稿可能な状態になる。</strong>
+      Minor 1 はモデル名が判明したときに一緒に解けばよく、それまで待つ必要はない。
+    </p>
+  </section>
+
+  <footer>
+    機械的検査は再通過 — 節参照ずれ0、旧表現の残存0（「最も有効な検出器」「3業種のコスト比」「全業種で成り立った」いずれも消去済み）、
+    DOI 9本は発行値と一致。
+  </footer>
+
+</div>

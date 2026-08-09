@@ -1,0 +1,309 @@
+<title>方法論論文の構成 ── 8業種を同じ物差しに載せて何が見えたか</title>
+<style>
+  :root{
+    --paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA;
+    --ink:#1A2A2C; --muted:#5C6A6B; --rule:#C3BFB2;
+    --accent:#1F5C55; --accent-soft:#D6E0DA;
+    --accent-2:#8A3B2E; --warn:#9A6B1E;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;
+    --mono:"SFMono-Regular","SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C;
+      --ink:#DCE4E2; --muted:#8B9B9B; --rule:#2E3C3D;
+      --accent:#74B7A7; --accent-soft:#1D3230;
+      --accent-2:#C87F68; --warn:#C4A05F;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA;
+    --ink:#1A2A2C; --muted:#5C6A6B; --rule:#C3BFB2;
+    --accent:#1F5C55; --accent-soft:#D6E0DA; --accent-2:#8A3B2E; --warn:#9A6B1E;
+  }
+  :root[data-theme="dark"]{
+    --paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C;
+    --ink:#DCE4E2; --muted:#8B9B9B; --rule:#2E3C3D;
+    --accent:#74B7A7; --accent-soft:#1D3230; --accent-2:#C87F68; --warn:#C4A05F;
+  }
+
+  body{background:var(--paper); color:var(--ink); font-family:var(--gothic);
+    line-height:1.85; font-size:16px; -webkit-font-smoothing:antialiased; padding:0 24px 96px;}
+  .wrap{max-width:920px; margin:0 auto; display:flex; flex-direction:column; gap:52px;}
+
+  header.mast{padding:72px 0 0; display:flex; flex-direction:column; gap:20px;}
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap;}
+  .eyebrow span.sep{opacity:.45;}
+  h1{font-family:var(--mincho); font-weight:600; font-size:clamp(28px,5vw,40px);
+    line-height:1.42; letter-spacing:.01em; text-wrap:balance; margin:0;}
+  .standfirst{font-size:16.5px; color:var(--muted); max-width:62ch;
+    border-left:2px solid var(--accent); padding-left:18px;}
+
+  section{display:flex; flex-direction:column; gap:18px;}
+  h2{font-family:var(--mincho); font-weight:600; font-size:21px; margin:0;
+    letter-spacing:.02em; display:flex; align-items:baseline; gap:14px;
+    padding-bottom:11px; border-bottom:1px solid var(--rule);}
+  h2 .num{font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--accent); flex:none;}
+  p{margin:0; max-width:68ch;}
+  strong{font-weight:700; color:var(--ink);}
+  .u{background:linear-gradient(transparent 62%, var(--accent-soft) 62%); font-weight:700;}
+
+  .sec{display:flex; flex-direction:column; gap:1px; background:var(--rule); border:1px solid var(--rule);}
+  .sec .row{background:var(--paper-2); padding:18px 22px; display:grid;
+    grid-template-columns:52px 1fr; gap:18px;}
+  .sec .n{font-family:var(--mono); font-size:12.5px; color:var(--accent); padding-top:4px;}
+  .sec .b{display:flex; flex-direction:column; gap:8px;}
+  .sec .h{font-family:var(--mincho); font-size:17.5px; font-weight:600; line-height:1.45;}
+  .sec p{font-size:14px;}
+  .sec ul{margin:0; padding-left:1.2em; display:flex; flex-direction:column; gap:6px; font-size:13.5px; color:var(--muted);}
+  .sec li::marker{color:var(--accent);}
+  .sec .st{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+    padding:3px 9px; border-radius:2px; align-self:flex-start;}
+  .have{background:var(--accent-soft); color:var(--accent);}
+  .todo{background:rgba(154,107,30,.16); color:var(--warn);}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--rule); background:var(--paper-2);}
+  table{border-collapse:collapse; width:100%; min-width:660px; font-size:13.5px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  thead th{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); background:var(--paper-3); font-weight:500; white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.m{font-family:var(--mono); font-size:12.5px; white-space:nowrap;}
+  td.hi{background:var(--accent-soft); font-weight:700;}
+
+  .box{background:var(--paper-2); border:1px solid var(--rule); border-left:3px solid var(--accent);
+    padding:22px 24px; display:flex; flex-direction:column; gap:12px;}
+  .box.alarm{border-left-color:var(--accent-2);}
+  .box.warn{border-left-color:var(--warn);}
+  .box .label{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em;
+    text-transform:uppercase; color:var(--muted);}
+  .box .big{font-family:var(--mincho); font-size:18px; line-height:1.6; font-weight:600; text-wrap:balance;}
+
+  ul.plain{margin:0; padding-left:1.3em; display:flex; flex-direction:column; gap:8px; max-width:68ch;}
+  ul.plain li::marker{color:var(--accent);}
+
+  footer{border-top:1px solid var(--rule); padding-top:24px; display:flex; flex-direction:column;
+    gap:10px; font-size:12.5px; color:var(--muted); line-height:1.75;}
+  footer .label{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em; text-transform:uppercase;}
+  a{color:var(--accent); text-decoration:underline; text-underline-offset:2px;}
+  code{font-family:var(--mono); font-size:.9em; background:var(--paper-3); padding:1px 5px; border:1px solid var(--rule);}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow"><span>2026-08-08</span><span class="sep">/</span><span>論文構成 v0.1</span>
+      <span class="sep">/</span><span>AI実務到達度インデックス</span></div>
+    <h1>単一ドメインでは<br>原理的に取り出せない量を、3つ持っている。</h1>
+    <p class="standfirst">
+      この論文の主張は「AIが何点取ったか」ではない。<strong>8業種を同じ設計で並べたときにだけ見える量</strong>がある、というのが中身。
+      資料を渡す効果の<strong>符号が業種で反転する</strong>こと、点数が飽和しても<strong>コストは分離する</strong>こと、
+      <strong>非決定性の大きさが業種で25%と74%に割れる</strong>こと。どれも1本のベンチからは出てこない。
+    </p>
+  </header>
+
+  <section>
+    <h2><span class="num">材料</span>すでに手元にあるもの</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>bench</th><th>業種</th><th>課題</th><th>腕</th><th>参照解の出どころ</th></tr></thead>
+        <tbody>
+          <tr><td class="m">cad</td><td>建築2D図面（DXF）</td><td class="m">4</td><td class="m">A B C</td><td>自作＋県の照査項目</td></tr>
+          <tr><td class="m">sekisan</td><td>積算</td><td class="m">6</td><td class="m">A B C</td><td>公共建築数量積算基準</td></tr>
+          <tr><td class="m">doboku</td><td>土木CAD（SXF）</td><td class="m">2</td><td class="m">A B C</td><td>SXF仕様書・CAD製図基準</td></tr>
+          <tr><td class="m">kanzei</td><td>通関HS分類</td><td class="m">4</td><td class="m">A B C D</td><td>税関の事前教示回答</td></tr>
+          <tr class="hi"><td class="m">jiban</td><td>液状化判定</td><td class="m">2</td><td class="m">A B C D</td><td>入力・手順・参照解すべて外部</td></tr>
+          <tr><td class="m">kikai</td><td>幾何公差（AP242）</td><td class="m">2</td><td class="m">B C</td><td>NIST の PMI 定義</td></tr>
+          <tr><td class="m">bim</td><td>空間構造（IFC）</td><td class="m">2</td><td class="m">B C</td><td>buildingSMART サンプル</td></tr>
+          <tr><td class="m">zeimu</td><td>税務の根拠条文</td><td class="m">2</td><td class="m">A B C</td><td>国税庁の関係法令通達</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px;color:var(--muted)">
+      計 <strong>24課題・8業種</strong>。8本すべてに敵対テストによる採点器の検証がある（名前つきケースで3〜14本）。
+      成果物は <strong>DOI 9本</strong>で公開済み。腕は A=知識なし / B=知識のみ / C=＋コード実行 / D=＋検査器。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">01</span>Introduction — 何が空いているか</h2>
+    <div class="sec">
+      <div class="row"><div class="n">1.1</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">議論に実測が無い</div>
+        <p>「AIに専門職の仕事が奪われるか」の議論は大量にあるが、<strong>根拠として実測を出したものが見当たらない</strong>。
+          税務では「AIに判断は危険」と書いた記事が多数あるのに、出てくるのは USCPA の点数と OCR のベンダー自己申告だけだった。</p>
+      </div></div>
+      <div class="row"><div class="n">1.2</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">既存ベンチは2種類しかない</div>
+        <ul>
+          <li><strong>試験問題型</strong> — JMMLU / JMED-LLM / IgakuQA119。選択肢を選ばせる。成果物を作らせない</li>
+          <li><strong>単一ドメイン型</strong> — ATLAS（HS分類）、BIM-Edit（IFC編集）、AECV-Bench（図面理解）。ドメイン内で閉じる</li>
+        </ul>
+        <p>本研究の位置は<span class="u">実務の成果物生成 × 業界横断 × 同一設計</span>。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>Design — 4つの設計原則</h2>
+    <div class="sec">
+      <div class="row"><div class="n">2.1</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">正解に自作を混ぜない（外部性の3段階）</div>
+        <ul>
+          <li>第1段階 — 参照解だけ外部（kanzei：税関の回答）</li>
+          <li>第2段階 — 手順も外部（sekisan / doboku：公的基準）</li>
+          <li>第3段階 — <strong>入力も外部</strong>（jiban：国交省の実測ボーリング × 示方書 × 機械的に通した結果）</li>
+        </ul>
+        <p>自作した参照解は、較正でも敵対テストでも検査できない。<strong>「参照解を真とする前提」の上に検査が立つため。</strong></p>
+      </div></div>
+      <div class="row"><div class="n">2.2</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">点数を出す前に、採点器を敵対テストで検証する</div>
+        <p>参照解を意図的に壊した答案を作り、採点器が落とすことを確認する。決め手になったのは
+          <strong>平成24年版の式で解いた答案</strong>で、桁も式の形もそれらしく、許容の緩い採点器は満点で通す。
+          <strong>着手時に著者自身が踏みかけたのがこれ</strong>である。</p>
+      </div></div>
+      <div class="row"><div class="n">2.3</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">導けない値は与件に分離する</div>
+        <p>jiban では γt・地下水位・khgL をタスクの与件として明示した。参照解に決めさせると、
+          そこに著者の裁量が入り 2.1 が崩れる。</p>
+      </div></div>
+      <div class="row"><div class="n">2.4</div><div class="b">
+        <span class="st have">材料あり</span>
+        <div class="h">腕を束ねない</div>
+        <p>A / B / C / D を分けないと軸を取り違える。sekisan で B→D を束ねていたのが最初の失敗だった。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span>Findings — 横断でしか見えない3つ</h2>
+    <p>ここが論文の芯。<strong>いずれも1本のベンチからは原理的に出てこない。</strong></p>
+
+    <div class="box alarm">
+      <div class="label">所見 1</div>
+      <div class="big">資料を渡す効果は、業種によって符号が反転する。</div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>業種</th><th>資料を渡すと</th><th>実測</th></tr></thead>
+          <tbody>
+            <tr><td>土木CAD（doboku）</td><td class="hi">劇的に効く</td><td class="m">25 → 97 点（形式の説明のみ）</td></tr>
+            <tr><td>積算（sekisan）</td><td>効く</td><td class="m">条文が最大の因子</td></tr>
+            <tr><td>通関（kanzei）</td><td class="hi">効かない・悪化する</td><td class="m">armB &lt; armA。81万→440万字で 0 件変化</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>通関では61件を分解すると、資料に関係なく解ける34件／どれだけ渡しても解けない15件／動くのは12件だけ。
+        <strong>「権威ある資料を渡せば正確になる」は業種に依存する仮説であって、一般則ではない。</strong></p>
+    </div>
+
+    <div class="box alarm">
+      <div class="label">所見 2</div>
+      <div class="big">点数は飽和する。コストは飽和しない。</div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>業種</th><th>点数</th><th>コスト</th></tr></thead>
+          <tbody>
+            <tr><td>液状化（jiban）</td><td>B = C = D = 100（課題を6倍にしても）</td><td class="m">armB は armC の <strong>約2.6倍</strong>のトークン</td></tr>
+            <tr><td>幾何公差（kikai）</td><td>armC が 6/6、armB が 5/6</td><td class="m">1,053,066 → 216,591（<strong>約4.9倍差</strong>）</td></tr>
+            <tr><td>BIM（bim）</td><td>armC 255/255、armB 235/255</td><td class="m">371,572 → 98,901（<strong>約3.8倍差</strong>）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>コード実行が買っているのは正確さではなく単価である。</strong>
+        点数だけを報告するベンチは、この差を構造的に見落とす。</p>
+    </div>
+
+    <div class="box alarm">
+      <div class="label">所見 3</div>
+      <div class="big">同じ問いに同じ答えが返らない。その大きさが業種で割れる。</div>
+      <ul class="plain">
+        <li><strong>通関</strong> — 同一条件5回で全回一致は 46/61。<strong>25% が毎回ちがう</strong></li>
+        <li><strong>税務</strong> — <strong>74% の事案で答えが毎回ちがう</strong>。ただし引用の的中数は 124本±1 で不動。
+          52本が当たったり外れたりして合計だけ釣り合っている</li>
+        <li><strong>積算</strong> — S005 は5回とも1文字違わず同じ</li>
+      </ul>
+      <p><strong>「規則を渡せば決定論的になる」も業種に依る。</strong>
+        同じ問いに同じ答えが返ることが要件の場面（税務・監査）では、精度以前の問題になる。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span>副次的な所見（節を立てるか、まとめて1節か）</h2>
+    <ul class="plain">
+      <li><strong>検査器は答えをほとんど変えない。</strong> 通関では armD が2回とも税番を1件も変えず、armC を下回った（39 対 42、ただしノイズ範囲）</li>
+      <li><strong>暗記は検出されなかった。</strong> カットオフ前後で類を揃えると差は armA −0.008 / armB +0.005。素の差は逆向き。<span class="u">公開ベンチの汚染は、少なくともこの形では心配しなくてよい</span></li>
+      <li><strong>RAG が外すのは「拾えていない」側。</strong> 渡した候補に正解が入っていれば 86% 拾うが、入っていない正解は 48%。候補を20→40に倍増しても +2.2ポイント</li>
+      <li><strong>腕が参照解の誤りを見つける。</strong> jiban T002 第1回で4件（Fc の取りこぼし／D50・D10 の存在／PL の孔底外挿／検査器の形式不備）。うち PL の外挿は、780312 の PL の60%が<strong>ボーリングしていない深さ</strong>から出ていた</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span>Threats to validity — 先に書く</h2>
+    <div class="box warn">
+      <div class="label">隠さないほうが強い</div>
+      <ul class="plain">
+        <li><strong>n が小さい。</strong> n=1〜5。通関の n=5 で SD 1.10、42 は範囲の上端だった。<strong>armC 42 と armD 39 の差はノイズ</strong>と自分で書いている</li>
+        <li><strong>実施者が1人。</strong> 課題設計・参照解・採点器・実行がすべて同一人物</li>
+        <li><strong>腕はモデル比較ではない。</strong> 同一基盤モデルの足回り違いを測っている</li>
+        <li><strong>出題側の欠陥が通算15件、うち14件が事実だった。</strong> 関税率表のパーサは4回直した。1件は作業ミス（生成物を2つ持ち片方だけ更新した）</li>
+        <li><strong>統制の不備を1件やった。</strong> n=5 の作業場を共有スクラッチパッドの下に並べ、前回の解答が到達可能な位置にあった。<strong>汚染は答えが揃う向きに働くので 25% は下限</strong></li>
+        <li><strong>一部ドメインには規模で大きく上回る先行研究がある。</strong> ATLAS は税関裁決 18,731 件</li>
+      </ul>
+      <p>最後から2つ目は、<strong>書けば方法論への貢献になる</strong>。ベンチの統制がどこで破れるかの具体例は、あまり公表されていない。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span>足りないもの — 書く前に埋める</h2>
+    <div class="sec">
+      <div class="row"><div class="n">A</div><div class="b"><span class="st todo">未</span>
+        <div class="h">腕の統一が取れていない</div>
+        <p>kikai と bim は armB・armC のみで、A と D が無い。cad / sekisan / doboku / zeimu は D が無い。
+          <strong>「同じ物差し」を主張するなら、せめて B と C は全8本に揃える必要がある。</strong>
+          現状で全8本に共通するのは B と C だけなので、<span class="u">横断の比較は B/C に限定して書く</span>のが誠実。</p>
+      </div></div>
+      <div class="row"><div class="n">B</div><div class="b"><span class="st todo">未</span>
+        <div class="h">コストが全本で取れていない</div>
+        <p>所見2は jiban / kikai / bim の3本で立っている。<strong>残り5本のコスト実測</strong>があると主張が一段強くなる。
+          `cost.json` の仕組みは既にあるので、走らせ直すだけ。</p>
+      </div></div>
+      <div class="row"><div class="n">C</div><div class="b"><span class="st todo">未</span>
+        <div class="h">反復が2本しかない</div>
+        <p>所見3は kanzei（n=5）と zeimu でしか測っていない。
+          <strong>非決定性が業種で割れる</strong>という主張には、あと1〜2業種の n=5 がほしい。</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">07</span>出し先と体裁</h2>
+    <ul class="plain">
+      <li><strong>arXiv cs.CL または cs.SE。</strong> 英語。日本の制度が題材でも、方法論は言語非依存に書ける</li>
+      <li><strong>8本の DOI を全部引用する。</strong> これでシリーズが1つの研究計画として読める</li>
+      <li><strong>related work は Test 0 の結果をそのまま使う。</strong> ATLAS / BIM-Edit / AECV-Bench / JMMLU。
+        <strong>コスト軸が2026年の標準指標であることも自分から書く</strong>（隠すと弱く見える）</li>
+      <li>タイトル案 — <em>How far does AI reach in professional practice? A cross-domain benchmark series with externally-authored ground truth</em></li>
+    </ul>
+    <div class="box">
+      <div class="label">順序の提案</div>
+      <p><strong>06-A（B/C を全8本に揃える）だけ先に埋めて、あとは今ある材料で書き切る。</strong>
+        06-B と 06-C は「今後の課題」に落として構わない。
+        完璧に揃うのを待つと出せなくなるし、<span class="u">横断で符号が反転するという所見は、今の材料で既に立っている</span>。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="label">根拠</div>
+    <p>各ベンチの README と実測値（2026-08-08 時点）。成果物は DOI 9本で公開済み ──
+      <code>10.5281/zenodo.21847239</code>（jiban）ほか。先客確認は
+      <a href="https://claude.ai/code/artifact/76d70f91-a649-41ed-b172-3eb5860ef696">bench-test0</a>。</p>
+  </footer>
+
+</div>

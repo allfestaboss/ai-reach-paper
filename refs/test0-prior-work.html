@@ -1,0 +1,273 @@
+<title>bench 8本の先客確認 ── 4点セットのうち2点は既に落ちている</title>
+<style>
+  :root{
+    --paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA;
+    --ink:#1A2A2C; --muted:#5C6A6B; --rule:#C3BFB2;
+    --accent:#1F5C55; --accent-soft:#D6E0DA;
+    --accent-2:#8A3B2E; --warn:#9A6B1E;
+    --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP",sans-serif;
+    --mono:"SFMono-Regular","SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C;
+      --ink:#DCE4E2; --muted:#8B9B9B; --rule:#2E3C3D;
+      --accent:#74B7A7; --accent-soft:#1D3230;
+      --accent-2:#C87F68; --warn:#C4A05F;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#E9E7DF; --paper-2:#E2DFD5; --paper-3:#DAD6CA;
+    --ink:#1A2A2C; --muted:#5C6A6B; --rule:#C3BFB2;
+    --accent:#1F5C55; --accent-soft:#D6E0DA;
+    --accent-2:#8A3B2E; --warn:#9A6B1E;
+  }
+  :root[data-theme="dark"]{
+    --paper:#121A1B; --paper-2:#182223; --paper-3:#1F2B2C;
+    --ink:#DCE4E2; --muted:#8B9B9B; --rule:#2E3C3D;
+    --accent:#74B7A7; --accent-soft:#1D3230;
+    --accent-2:#C87F68; --warn:#C4A05F;
+  }
+
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--gothic); line-height:1.85;
+    font-size:16px; -webkit-font-smoothing:antialiased;
+    padding:0 24px 96px;
+  }
+  .wrap{max-width:920px; margin:0 auto; display:flex; flex-direction:column; gap:56px;}
+
+  header.mast{padding:72px 0 0; display:flex; flex-direction:column; gap:20px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--muted);
+    display:flex; gap:14px; flex-wrap:wrap; align-items:center;
+  }
+  .eyebrow span.sep{opacity:.45;}
+  h1{
+    font-family:var(--mincho); font-weight:600;
+    font-size:clamp(28px,5vw,42px); line-height:1.42;
+    letter-spacing:.01em; text-wrap:balance; margin:0;
+  }
+  .standfirst{
+    font-size:16.5px; color:var(--muted); max-width:62ch;
+    border-left:2px solid var(--accent-2); padding-left:18px;
+  }
+
+  section{display:flex; flex-direction:column; gap:20px;}
+  h2{
+    font-family:var(--mincho); font-weight:600;
+    font-size:22px; margin:0; letter-spacing:.02em;
+    display:flex; align-items:baseline; gap:14px;
+    padding-bottom:12px; border-bottom:1px solid var(--rule);
+  }
+  h2 .num{font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--accent); flex:none;}
+  p{margin:0; max-width:66ch;}
+  strong{font-weight:700; color:var(--ink);}
+  .u{background:linear-gradient(transparent 62%, var(--accent-soft) 62%); font-weight:700;}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--rule); background:var(--paper-2);}
+  table{border-collapse:collapse; width:100%; min-width:700px; font-size:14px;}
+  th,td{text-align:left; padding:12px 15px; border-bottom:1px solid var(--rule); vertical-align:top;}
+  thead th{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--muted);
+    background:var(--paper-3); font-weight:500; white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  td.nm{font-family:var(--mono); font-size:13px; font-weight:700; white-space:nowrap;}
+  td.pri{color:var(--muted); font-size:13px;}
+  td.vd{font-family:var(--mono); font-size:11.5px; white-space:nowrap; letter-spacing:.02em;}
+  .dead{color:var(--accent-2); font-weight:700;}
+  .alive{color:var(--accent); font-weight:700;}
+  .grey{color:var(--muted);}
+  tr.deadrow td{background:rgba(138,59,46,.07);}
+  tr.aliverow td{background:var(--accent-soft);}
+
+  .box{
+    background:var(--paper-2); border:1px solid var(--rule);
+    border-left:3px solid var(--accent); padding:24px 26px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .box.alarm{border-left-color:var(--accent-2);}
+  .box.warn{border-left-color:var(--warn);}
+  .box .label{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);}
+  .box .big{font-family:var(--mincho); font-size:19px; line-height:1.65; font-weight:600; text-wrap:balance;}
+
+  ul{margin:0; padding-left:1.3em; display:flex; flex-direction:column; gap:9px; max-width:66ch;}
+  li{padding-left:.15em;}
+  li::marker{color:var(--accent);}
+
+  .scoreline{display:flex; flex-wrap:wrap; gap:1px; background:var(--rule); border:1px solid var(--rule);}
+  .scoreline > div{background:var(--paper-2); padding:18px 20px; flex:1 1 200px; display:flex; flex-direction:column; gap:6px;}
+  .scoreline .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);}
+  .scoreline .v{font-family:var(--mincho); font-size:26px; font-weight:600; line-height:1.15;}
+  .scoreline .s{font-size:12.5px; color:var(--muted);}
+  .scoreline .v.bad{color:var(--accent-2);}
+  .scoreline .v.ok{color:var(--accent);}
+
+  footer{
+    border-top:1px solid var(--rule); padding-top:26px;
+    display:flex; flex-direction:column; gap:12px;
+    font-size:12.5px; color:var(--muted); line-height:1.75;
+  }
+  footer .label{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em; text-transform:uppercase;}
+  footer ul{gap:6px; font-size:12.5px;}
+  a{color:var(--accent); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px;}
+  a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">
+      <span>2026-08-08</span><span class="sep">/</span>
+      <span>Test 0</span><span class="sep">/</span>
+      <span>AI実務到達度インデックス</span>
+    </div>
+    <h1>差分の4点セットのうち、<br>2点は既に一般化していた。</h1>
+    <p class="standfirst">
+      「日本の実務資格レベル × 一次資料由来の参照解 × 業界横断 × コスト軸」を潰した結果。
+      <strong>コスト軸は 2026 年の標準指標</strong>、<strong>一次資料由来も既存研究が同じ発想</strong>。
+      さらに 8 本のうち 3 本は、個別ドメインで先客に規模負けしている。ただし全滅ではない。
+    </p>
+  </header>
+
+  <section>
+    <div class="scoreline">
+      <div><span class="k">方法論の差分</span><span class="v bad">2 / 4</span><span class="s">4点セットのうち生き残ったのは2点</span></div>
+      <div><span class="k">ドメイン別</span><span class="v bad">3 本</span><span class="s">先客に直撃されている bench</span></div>
+      <div><span class="k">空いている</span><span class="v ok">5 本</span><span class="s">先行研究が見つからなかった bench</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">01</span>方法論 ── 4点セットの生死</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>主張していた差分</th><th>実際にあったもの</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr class="deadrow">
+            <td>コストも測る</td>
+            <td class="pri">2026 年の主要リーダーボードの標準指標。「GPT-5 が $0.09/task で精度 36.99」のような <strong>cost-per-task</strong> が既定で並ぶ。「最も安いモデルが結果あたりでは最も高い」という論点も一般化済み</td>
+            <td class="vd dead">新規性なし</td>
+          </tr>
+          <tr class="deadrow">
+            <td>参照解を一次資料に持たせる</td>
+            <td class="pri">ATLAS・HSCodeComp はいずれも米国税関の裁決（CROSS）由来。<strong>公的裁決を正解とする発想は既に確立</strong></td>
+            <td class="vd dead">新規性薄い</td>
+          </tr>
+          <tr class="aliverow">
+            <td>日本の実務で「作らせる」</td>
+            <td class="pri">日本語ベンチは JMMLU・JMED-LLM・IgakuQA119・JGLUE など揃っているが、<strong>すべて試験問題ベースの QA</strong>。図面を引く・数量を拾う・判定計算を通す、という成果物生成のベンチは見当たらない</td>
+            <td class="vd alive">空いている</td>
+          </tr>
+          <tr class="aliverow">
+            <td>業界横断で同じ物差し</td>
+            <td class="pri">既存は例外なく<strong>単一ドメイン単発</strong>。BIM は BIM、関税は関税で閉じている。同一設計で 8 業界を並べたものは無い</td>
+            <td class="vd alive">空いている</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box alarm">
+      <div class="label">いちばん効く指摘</div>
+      <div class="big">コスト軸は、去年なら差分だった。今年はもう標準装備。</div>
+      <p>
+        「腕が満点で並んだらコストを見る」という自分で見つけた原則は正しかった。
+        ただし<strong>同じ結論に世界も1年で到達していて、既にリーダーボードの既定列になっている</strong>。
+        ここを看板にすると「知っている話」として読まれる。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>ドメイン別 ── 8本の生死</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>bench</th><th>先客</th><th>判定</th></tr></thead>
+        <tbody>
+          <tr class="deadrow">
+            <td class="nm">kanzei</td>
+            <td class="pri"><strong>ATLAS</strong>（arXiv 2509.18400）— 税関裁決 18,731 件でファインチューン、10桁完全一致 40%。<strong>HSCodeComp</strong> — 専門家注釈 632 件・27章。<strong>NoRMA</strong> — 3,424 件。さらに CROSS 由来の先行ベンチ（arXiv 2412.14179）</td>
+            <td class="vd dead">完敗 / 規模3桁差</td>
+          </tr>
+          <tr class="deadrow">
+            <td class="nm">bim</td>
+            <td class="pri"><strong>BIM-Edit</strong>（arXiv 2606.20146、2026-06）— IFC の自然言語編集、<strong>324 タスク</strong>・実モデル 11・合成 36、直接／空間／位相の3系統</td>
+            <td class="vd dead">直撃 / 規模負け</td>
+          </tr>
+          <tr class="deadrow">
+            <td class="nm">cad</td>
+            <td class="pri"><strong>AECV-Bench</strong> — 建築・工学図面の理解を多モーダルで評価。記号と空間推論のギャップを主題化</td>
+            <td class="vd dead">近接（読解 vs 作図）</td>
+          </tr>
+          <tr>
+            <td class="nm">kikai</td>
+            <td class="pri">STEP AP242 Benchmark（AFNET／benchmark.ap242.org）は存在するが、<strong>PLM 製品の相互運用性検証であって LLM 評価ではない</strong>。名前は衝突するが別物</td>
+            <td class="vd grey">名称衝突のみ</td>
+          </tr>
+          <tr class="aliverow"><td class="nm">jiban</td><td class="pri">液状化判定（FL・PL）を LLM に解かせるベンチは見つからず</td><td class="vd alive">空いている</td></tr>
+          <tr class="aliverow"><td class="nm">sekisan</td><td class="pri">図面からの数量拾いのベンチは見つからず</td><td class="vd alive">空いている</td></tr>
+          <tr class="aliverow"><td class="nm">zeimu</td><td class="pri">日本の税務で「根拠条文を当てる」ベンチは見つからず</td><td class="vd alive">空いている</td></tr>
+          <tr class="aliverow"><td class="nm">doboku</td><td class="pri">SXF（SFC）作図のベンチは見つからず。日本固有形式であることが効いている</td><td class="vd alive">空いている</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      空いている 4 本に共通するのは、<strong>日本の制度・基準・ファイル形式に固有</strong>であること。
+      SXF も道路橋示方書も内訳書も、海外の研究者が触る動機がない。
+      <span class="u">堀は技術ではなく、制度のローカル性のほうにあった。</span>
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span>縮めた後に残る主張</h2>
+    <div class="box">
+      <div class="label">言えること</div>
+      <div class="big">
+        日本の実務で実際に作る成果物を、8 業界で同じ物差しに載せた。
+      </div>
+      <p>
+        試験問題への回答ではなく<strong>成果物の生成</strong>。単一ドメインではなく<strong>横断</strong>。
+        そして日本の制度に固有で、海外の研究が手を出していない領域。
+        コスト軸と一次資料参照は<strong>看板から降ろして、設計上の当然の作法として扱う</strong>。
+      </p>
+    </div>
+    <div class="box warn">
+      <div class="label">やってはいけないこと</div>
+      <ul>
+        <li><strong>kanzei を看板にしない</strong> — 18,731 件 vs 4 課題では、規模で即座に否定される</li>
+        <li><strong>bim を「初の IFC ベンチ」と書かない</strong> — BIM-Edit が 2 か月前に出ている</li>
+        <li><strong>コスト軸を新規性として書かない</strong> — 2026 年の既定列</li>
+      </ul>
+      <p>
+        逆に、<strong>BIM-Edit・ATLAS・AECV-Bench を related work として正面から引用</strong>し、
+        「彼らは単一ドメインの読解／分類、こちらは横断の生成」と差分を書けば、主張はむしろ強くなる。
+        先客を隠すと弱く見え、引くと位置が決まる。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span>次の一手</h2>
+    <ul>
+      <li><strong>DOI を取る順序を変える。</strong> 1 本目は <code>jiban-bench</code> か <code>doboku-bench</code>。空いていて、かつ日本固有性がいちばん強い</li>
+      <li><strong>kanzei / bim / cad は series の一部として残す。</strong> 単独では出さない。「横断」の主張には 8 業界そろっている必要があるので、削る必要はない</li>
+      <li><strong>related work を先に書く。</strong> 上の 4 本は README に引いておく。後から足すより、最初から位置づけたほうが読まれ方が変わる</li>
+      <li><strong>コスト軸は測り続ける。</strong> 主張にはしないが、データとしては価値がある。横断で同じ条件のコスト比較は、単発ベンチには作れない</li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="label">出典（2026-08-08 確認）</div>
+    <ul>
+      <li>関税：<a href="https://arxiv.org/pdf/2509.18400">ATLAS: Benchmarking and Adapting LLMs for Global Trade</a>、<a href="https://arxiv.org/pdf/2412.14179">Benchmarking Harmonized Tariff Schedule Classification Models</a>、<a href="https://link.springer.com/chapter/10.1007/978-3-032-15632-7_18">NoRMA</a></li>
+      <li>BIM／CAD：<a href="https://arxiv.org/abs/2606.20146v1">BIM-Edit（2026-06）</a>、<a href="https://api.emergentmind.com/topics/aecv-bench">AECV-Bench</a>、<a href="http://benchmark.ap242.org/">AP242 Benchmarks（PLM相互運用性・LLM評価ではない）</a></li>
+      <li>コスト軸：<a href="https://www.clickrank.ai/llm-leaderboard/">LLM Leaderboard 2026</a>、<a href="https://mettevo.com/blog/article/llm-rankings-2026-top-ai-models-compared-by-benchmarks-speed-and-price">LLM Rankings 2026</a></li>
+      <li>日本語ベンチ：<a href="https://github.com/nlp-waseda/JMMLU">JMMLU</a>、<a href="https://github.com/sociocom/jmed-llm">JMED-LLM</a>、<a href="https://github.com/llm-jp/awesome-japanese-llm">awesome-japanese-llm</a>、<a href="https://swallow-llm.github.io/evaluation/about.ja.html">日本語LLM評価（Swallow）</a></li>
+    </ul>
+  </footer>
+
+</div>
