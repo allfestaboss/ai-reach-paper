@@ -54,7 +54,7 @@ can be shown consistent with its graduations, but an error in the graduations
 is not observable through it.
 
 There is a second consequence, which we did not see until it produced a defect
-(§3.1.5). A benchmark has a fourth artefact — the **task statement** given to
+(§3.1.5, and again in §3.1.6). A benchmark has a fourth artefact — the **task statement** given to
 the solver — and it is the only one *not* derived from the reference. By the
 same argument, the three checks cannot detect a disagreement between the two
 either. They can confirm that the reference is graded as the reference; they
@@ -158,7 +158,9 @@ and the single defect our own checks caught may belong to a class they are
 good at. The claim is about what worked here, not about relative power.
 
 We know of no procedure internal to the benchmark that substitutes for it, and
-we did not find one.
+we did not find one. §3.1.6 reports a mechanical check that covers one
+already-diagnosed class of task-statement defect; it was written from a solver
+report rather than ahead of one, and does not substitute.
 
 The established external procedures do not substitute for it either, for
 reasons specific to this class of error (§5.1). Confident learning and related
@@ -260,6 +262,88 @@ rulings — and it would be natural to read that as a solution to §3.1.1. It is
 not. External provenance constrains the reference; it does not validate it.
 Where the standard's terms are themselves ambiguous, provenance imports the
 ambiguity along with the authority.
+
+### 3.1.6 A task-statement defect the solvers could report, and a check that finds it
+
+§3.1.5 reports a task-statement defect that **no solver could have reported**,
+because the field's existence was never disclosed. A later task supplies the
+complementary case: a task-statement defect of the same class that the solvers
+**did** report, from a task that was under a pre-registered freeze at the time.
+
+The counting task in the building-modelling benchmark (`bim`, T005) asks for
+eleven figures over seventeen files, graded on exact match only. Two of the
+eleven concern property rows. **The task statement did not fix whether
+rows carried by non-physical owners were in scope.** Restricted to physical
+elements the answers are 308 and 306; unrestricted they are 324 and 322. The
+sixteen-row difference is ten rows on `IfcSpace`, three on `IfcBuilding` and
+three on `IfcZone`. Both readings follow from the stated rules: the rules define
+a property as an attribute inside a property set, and describe attachment as
+being "to an element", a word the same rules use elsewhere in a narrower sense.
+
+The submissions divide accordingly. Of the six runs, one produced no answers
+(it exhausted its session limit); **the remaining five split two against three —
+two wrote 308/306, three wrote 324/322 — and every run lost points at these two
+questions and nowhere else.** A two-valued split with no scatter is the
+signature of an interpretive fork rather than of arithmetic error. The run log
+records that five runs additionally raised the ambiguity in prose.
+
+Three things distinguish this instance from §3.1.5.
+
+**The defect was recorded without being repaired.** The task statement,
+reference, grader and adversarial suite had been frozen before the runs, in
+response to an earlier task in the same benchmark whose reported effect turned
+out to be an artefact of revising the grader after reading the submissions. The
+freeze held: the defect is documented in the run log and the task is left
+carrying it. The repair is a separate task with the two questions split into
+four, frozen and not yet run. This is what §3.1.4's recommendation to publish
+defect counts looks like when the defect is found in one's own current task.
+
+**Solver-detectability of task-statement defects is not uniform.** In §3.1.5 the
+answer format's worked example was structurally incapable of revealing that the
+graded field existed, so the omission was unreportable and surfaced only as a
+constant deduction under replication. Here both readings were derivable from the
+material the solvers held, so the gap was visible to anyone performing the count,
+and they reported it. The distinguishing property is not the solvers but the
+statement: **whether it discloses enough for the gap to be apparent.** A defect
+that suppresses a question is invisible to the subject; a defect that leaves a
+question open is not. Only the second class is reachable by the detector of
+§3.1.4, which narrows that section's claim.
+
+**It yields a check that is not a function of the reference.** The three checks
+of §3.1.1 cannot examine the task statement. This defect admits one that can:
+recompute each figure under each admissible scope, and require that any question
+whose answer moves names the scope **in its own text**. Applied to the task as
+frozen, it fails on exactly the two property questions. Applied to the same
+task's quantity question it passes, and passes for the informative reason — in
+this corpus every quantity row is carried by a physical element, so the answer is
+250 under either scope and the question is not exposed. The check's own
+calibration is that it must fail on the frozen task; if it stops failing there,
+the check has broken.
+
+Its scope should not be overstated. It mechanises **one already-diagnosed class**
+— the membership rule of a graded set — on one axis, and it was derived from a
+solver report rather than reaching the defect first. It is not a general
+procedure for finding disagreements between task and reference, and it does not
+displace §3.1.4: the solvers found this defect, and the check was written
+afterwards from what they found. What it demonstrates is narrower and still
+worth stating: **once such a defect is diagnosed, the class it belongs to can be
+made mechanically checkable, and the check runs outside the closed loop** because
+its input is the task statement rather than the reference.
+
+It repaid this immediately. Run against the draft of the repaired task, before
+that task was frozen or issued, it failed two of the four replacement questions:
+both had been written as continuations of the question above them ("as above,
+but merged"), deferring scope to a neighbour. Submissions are maps from question
+identifier to integer, so nothing obliges a solver to read the questions in
+order. **The repair had reproduced the defect it was written to remove**, in a
+form neither of us had noticed, and the check caught it before any solver saw it.
+
+One limitation of this instance is ours. The solver reports are what located the
+defect, and **we did not retain them**; the submissions were stored as answer
+files only, and the ambiguity survives in a curated run-log note rather than in
+the reports themselves. §3.1.4 recommends that solver reports be collected and
+adjudicated as a matter of course. On this task we adjudicated them and then
+discarded the evidence.
 
 ---
 
