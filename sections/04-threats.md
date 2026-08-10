@@ -250,8 +250,17 @@ cross-domain comparison under one design, not classification accuracy.
   arm B's token count there included 551,489 tokens spent by subagents pursuing
   a reference that did not exist, caused by a defect in our own parser. The
   replication supersedes it. The instrumentation exists in all eight; the `cad`
-  and `bim` runs have not been redone, and the remaining four domains have no
-  repeated cost measurement at all.
+  runs have not been redone, and the remaining four domains have no
+  repeated cost measurement at all. The `bim` runs **have** since been redone,
+  after this paper's v1.1.0: that benchmark withdrew the task on which it had
+  reported a 35.7-point separation between the arms, on the ground that the
+  measurement had not been sound — a no-information submission scored 100.0 on
+  it, and its statement and grader had been revised after the submissions were
+  read, by more points than the separation being claimed. A replacement task,
+  frozen before the runs, was measured at n = 3 per arm; both arms reached
+  11 of 11, and the arms separated on cost alone (arm B 370,646–447,227 tokens,
+  arm C 89,683–115,518). Neither the withdrawn claim nor the replacement is
+  used in §3.2.2, whose `bim` observation comes from a different task.
 - **Repetition exists in four domains, and they do not measure the same
   quantity.** §3.2.3 rests on `kanzei` (n = 5), `zeimu` (n = 5), `kikai` (n = 6,
   three per arm) and `jiban` (n = 3); the `sekisan` 0 percent figure comes from a

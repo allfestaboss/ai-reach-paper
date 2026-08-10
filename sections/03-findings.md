@@ -336,14 +336,62 @@ both had been written as continuations of the question above them ("as above,
 but merged"), deferring scope to a neighbour. Submissions are maps from question
 identifier to integer, so nothing obliges a solver to read the questions in
 order. **The repair had reproduced the defect it was written to remove**, in a
-form neither of us had noticed, and the check caught it before any solver saw it.
+form we had not noticed, and the check caught it before the task was issued.
 
-One limitation of this instance is ours. The solver reports are what located the
-defect, and **we did not retain them**; the submissions were stored as answer
-files only, and the ambiguity survives in a curated run-log note rather than in
-the reports themselves. §3.1.4 recommends that solver reports be collected and
-adjudicated as a matter of course. On this task we adjudicated them and then
-discarded the evidence.
+### 3.1.7 The repair carried a second defect, and the check did not see it
+
+The repaired task was frozen and issued to three runs of the code-executing arm.
+All three returned every figure correctly. All three also reported, in the prose
+accompanying their submissions and independently of one another, that **the task
+statement printed the answers to four of its thirteen questions.**
+
+They were right. The explanatory note we had written to document the defect of
+§3.1.6 read, in part, *"restricted to physical elements 308/306, unrestricted
+324/322"* — and those four numbers are the answers to the four questions the
+repair had been built to ask. The nine remaining answers do not appear. **The
+task could not measure the only thing it was made to measure.** We record it as
+a failed measurement, leave the task unrepaired for the same reason as before,
+and did not run the second arm, whose comparable cost on the preceding task was
+of the order of five million tokens.
+
+This is worth reporting for three reasons, none of them flattering.
+
+**The defect was introduced by the repair, and the repair's own check did not
+cover it.** §3.1.6 argues that a diagnosed class of task-statement defect can be
+made mechanically checkable. That remains true, and it is now also clear how
+little it buys: the check we wrote examines whether a question fixes the scope of
+the set it grades, and answer disclosure is a different property of the same
+artefact. Five checks ran on this task — calibration, external cross-check,
+adversarial suite, the scope check, and a hash-based freeze — and the statement
+carrying the answers passed all five. Adding a check for the class that just bit
+us left us blind to the class that bit us next, in the same file, in text written
+for the express purpose of explaining the first.
+
+**The idea was already present and did not reach.** The benchmark's calibration
+already contained a test for disclosed answers, written after an earlier task
+leaked one; it inspects the worked example in the answer format. Counting tasks
+have no worked example, so the test found nothing to examine and passed in
+silence. The failure was not of conception but of coverage, and a check that
+passes because it had nothing to look at is indistinguishable, in the log, from a
+check that passed because the artefact was clean.
+
+**The solvers found it again, and this time we had kept the evidence.** §3.1.4
+recommends collecting and adjudicating solver reports as a matter of course. On
+the preceding task we adjudicated them and then discarded them: the submissions
+were stored as answer files only, and the ambiguity of §3.1.6 survives in a
+curated run-log note rather than in the reports themselves. We changed that
+before issuing this task, and the reports are what located this defect. Three of
+three runs raised it unprompted, while returning correct answers — a solver
+reporting that a question was too easy has no incentive we can identify, which is
+the same structural point §3.1.4 makes about solver reports in general.
+
+The wider claim of §3.1 is unchanged and, if anything, is made more sharply here
+than by any instance we constructed deliberately. **A benchmark's checks are
+written by whoever wrote the artefact they check, and inherit that person's
+blind spots; the subject under test does not.** We have now watched this happen
+three times in one benchmark: a defect the solvers could not see (§3.1.5), a
+defect they could and did (§3.1.6), and a defect introduced by the act of
+repairing the second, again found by the solvers and by nothing else.
 
 ---
 
