@@ -132,8 +132,8 @@ reference integrated a geotechnical index below the borehole bottom, putting 60
 percent of a value in undrilled depth; it passed the grader, calibration to zero
 difference, and twelve adversarial cases. Two further kinds reached no solver: a scored
 field the task never specified, and a grader giving full marks to a submission
-that read nothing. A fifth we introduced, in a note documenting
-another; auditing the series for it found two more.
+that read nothing. A fifth we introduced, in a note on
+another; auditing the series found two more.
 
 The same design measures how far three documented effects vary by domain.
 Supplying the governing material ranges from moving a task 25 to 97 out of 100
