@@ -151,6 +151,31 @@ those involving arm D on two. In particular, the sign reversal in §3.2.1 is an
 A-versus-B comparison available in `doboku` and `kanzei` but not in `kikai` or
 `bim`.
 
+### 4.2.6 The instructions given to the solvers were not retained
+
+§2.4 describes the arms in prose. **The text the solvers actually received is
+not in the repositories for six of the eight benchmarks.** Prompts were composed
+at launch time from a template with substitution slots; only the template, if
+anything, was committed. We discovered this while auditing one benchmark, where
+the substituted text turned out to contain a false statement about which tools
+the arm had available (§3.1.9) — a claim that existed nowhere in the record until
+we transcribed it after the fact.
+
+The consequence is bounded but real. **The arm definitions are reproducible from
+the prose; the exact instructions are not.** Anyone repeating this work would be
+reconstructing the wording, and the wording is not inert: the same audit found
+that a question's phrasing decided a 66-point spread in one domain (§3.2.1) and
+that a note intended to explain a defect disclosed four answers in another
+(§3.1.7). We have since added the fully-substituted prompt to the frozen set in
+the two benchmarks that acquired new runs, and recorded the absence explicitly
+in the other six rather than leave it implicit.
+
+A related and smaller gap: freezing was introduced partway through. For tasks
+that had already run, the repositories now carry a hash record labelled as a
+**baseline rather than a freeze** — it does not certify anything about the past,
+it only makes later drift detectable. The distinction is kept in the filenames
+so that a reader cannot mistake one for the other.
+
 ---
 
 ## 4.3 External validity
