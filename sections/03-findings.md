@@ -151,11 +151,15 @@ an answer is independent of the reference. Where the reference contains an
 assumption the inputs contradict, the solver is positioned to notice and the
 checks are not.
 
-**In this design the subject under test was the only detector that located
-reference defects at all.** With fifteen instances we cannot rank detectors —
-the defects a solver finds are, by construction, the ones a solver can find,
-and the single defect our own checks caught may belong to a class they are
-good at. The claim is about what worked here, not about relative power.
+**Within the benchmark's own loop the subject under test was the only detector
+that located reference defects at all.** With fifteen instances we cannot rank
+detectors — the defects a solver finds are, by construction, the ones a solver
+can find, and the single defect our own checks caught may belong to a class they
+are good at. The claim is about what worked here, not about relative power. It
+is bounded in a second way as well, which we record because we met it: a third
+detector, external to that loop, located a defect that neither the checks nor
+the solvers reached, and that the solvers were structurally unable to reach
+(§3.1.8).
 
 We know of no procedure internal to the benchmark that substitutes for it, and
 we did not find one. §3.1.6 reports a mechanical check that covers one
@@ -392,6 +396,161 @@ blind spots; the subject under test does not.** We have now watched this happen
 three times in one benchmark: a defect the solvers could not see (§3.1.5), a
 defect they could and did (§3.1.6), and a defect introduced by the act of
 repairing the second, again found by the solvers and by nothing else.
+
+### 3.1.8 The re-issue, and an examination-side defect that was the operator
+
+The task was re-issued with the numbers removed from the explanatory note and
+nothing else changed — questions, rules and input files are identical to the
+character, which we verified mechanically. It was frozen and run three times on
+each arm.
+
+**The prediction held.** Both arms answered all thirteen questions correctly:
+three of three runs on the code-executing arm, and two of three on the
+read-only arm, with the third accounted for below. The two questions that three
+of six runs had answered differently under the original statement were answered
+identically by every run once the statement distinguished them. **No run
+reported a disclosed answer**, against three of three on the previous issue.
+The diagnosis of §3.1.6 — that the disagreement was a property of the question
+and not of the solvers — is supported.
+
+The remaining run is the finding. Partway through, the read-only arm's delegated
+sub-agents began failing to return results through a secondary messaging channel,
+and some of their output surfaced in the operator's stream instead of their
+parent's. **We read this as a broken pipeline and instructed the two running
+solvers to stop waiting and submit what they had.** One complied and returned
+seven of thirteen, wrong by exactly one on all six questions that count spatial
+entities and elements — the signature of a truncated pass. The other did not
+comply, waited, and returned thirteen of thirteen; its final report states that
+the channel had not been broken at all, only slow, that every outstanding result
+arrived, the last about twenty-three minutes in, and that **had it followed our
+instruction it would have scored zero on all thirteen.** It lists our
+misdiagnosis explicitly among the examination-side defects it was asked to
+report.
+
+It was right, and the consequence is that **the operator became an
+examination-side defect in the middle of a frozen measurement.** We were careful
+in one respect and careless in another. Careful: we declined to relay the
+delegates' output to their parent, on the grounds that someone holding the
+reference should not carry messages inside the system under test, and we passed
+no task content — only the instruction to stop waiting. Careless: that
+instruction was itself an intervention, it was based on a misreading of a
+transport failure as a pipeline failure, and it decided the difference between a
+full score and a partial one on the run that obeyed it. The freeze held
+throughout — the statement, reference and prompt template are byte-identical
+before and after — and it did not help, because **a freeze constrains the
+artefacts and says nothing about the operator's conduct during the run.**
+
+Two further conditions of that arm were wrong and are worth stating because they
+were wrong three issues running. The constraint text told the read-only arm it
+could use three tools to search files; **two of the three do not exist in this
+environment**, which we confirmed by probing a fresh session and reading the
+error text, and the only working search route was the one the arm's own
+constraint forbade. The arm was therefore reduced to reading seventeen files
+linearly. The same defect is recorded against the first issue of this task, and
+we nevertheless wrote in the run logs of the two subsequent issues that the
+condition had been fixed. **We had not checked.** A false entry in the record is
+worse than the original defect, because the original was visible to anyone who
+read the log and the correction was not.
+
+Consequently **the cost comparison for this task is void** — the read-only arm's
+token counts mix the cost of its assigned handicap with the cost of a search
+capability it was promised and did not have, and the two cannot be separated.
+The attainment comparison is unaffected: reading linearly is slower, not less
+correct, and the arm reached thirteen of thirteen twice.
+
+A related gap: the prompt the solver actually received was a template with a
+substitution slot, and **only the template was frozen.** The substituted text —
+including the false claim about available tools — existed nowhere in the
+repository until we transcribed it after the fact. A freeze that covers the
+question but not the instructions is not covering what the solver read.
+
+Finally, one observation about the limits of solver reports, which §3.1.4
+recommends collecting. The truncated run declared its own least reliable figure
+in its report. **That figure was correct, and its actual errors were in six
+questions it had not flagged.** Solver reports have repeatedly located defects on
+the examination side in this series; this one is evidence that they should not
+be read as self-diagnosis. What the solver can see is the question it was asked.
+What it cannot see is where its own count went wrong.
+
+### 3.1.8 A defect no solver could report, found by external review
+
+The instances above divide detection between two parties: the benchmark's own
+checks, and the subject under test. A third case, which arrived after this
+paper's first release and which we record here rather than omit, is located by
+neither.
+
+The building-modelling benchmark (`bim`) reported a task on which arm C scored
+100.0 against arm B's 64.3 — a 35.7-point separation, and the only score
+separation between those two arms anywhere in the series. In its v1.1.0 release
+that benchmark withdrew the result, on the ground that the measurement had not
+been sound. Three things had gone wrong, and they are of different kinds.
+
+**A submission that read nothing scored full marks.** A submission constructed
+without opening the corpus — entity identifiers enumerated across the four
+positions the task asked about, with only the four differences set to the values
+the task's own preamble implied — scored 100.0 out of 100. Every one of the six
+real runs scored between 55.0 and 70.0. **The observed scores were all below
+what an uninformed submission obtained**, which is the signature of a grader
+that is not measuring the quantity it names: one question was scored on coverage
+alone, so enumerating widely drove recall to 1.0, and the other required only
+four differences to be stated.
+
+This is the mechanism of §3.1.1 carried one step further than we had stated it.
+We had said the adversarial suite is blind in the direction where the reference
+is wrong, because its cases are built by corrupting the reference. The stronger
+consequence is that the suite is untested *everywhere far from the reference*:
+a perturbation-generated suite cannot reach a submission that bears no relation
+to the reference at all. The suite passed — nine cases at the time — and had
+never probed the region in which the grader was degenerate. The repair was to
+add uninformed submissions as standing adversarial cases, at which the same
+submission scores 1.6 while the reference still scores 100.0.
+
+**The solvers could not have reported it.** This is the respect in which the
+case differs from §3.1.5, where the solvers were silent about a defect they
+were in a position to notice. Here the defect concerns what the grader does
+with submissions that no solver produces. A solver that reads the corpus and
+answers honestly never visits that region of the submission space, and so has
+no observation to make about it. Neither routing through solver reports (§6)
+nor comparing per-question breakdowns across repeated runs reaches this class:
+the six runs *did* share a deduction, but the shared deduction was the
+symptom of a low ceiling, not of the degeneracy above it.
+
+**The stated reason for the withdrawal was itself wrong, and the error was
+recoverable only from version control.** The withdrawal was first attributed to
+replication — that the separation seen in a pilot run had not survived n = 3.
+Restoring the pre-revision grader from version control and re-scoring the pilot
+submissions gave a different account:
+
+| | grader as frozen | grader after revision | change |
+|---|---|---|---|
+| pilot arm B | 11.7 | 64.3 | **+52.6** |
+| pilot arm C | 71.7 | 100.0 | +28.3 |
+
+The revision moved more points than the 35.7-point separation being withdrawn.
+The revised task statement had also resolved, in its rules, the single fact arm
+B had failed on. The pilot and the replication were therefore not runs of the
+same task, and the correct account is not that the separation vanished under
+replication but that **the statement and the grader were revised after the
+submissions had been read**. We note that this is available as a check only
+because the grader is under version control and every revision is a commit;
+a benchmark distributed as a snapshot cannot be interrogated this way, by its
+authors or by anyone else.
+
+A replacement task, with the task statement, reference, grader and adversarial
+suite committed before any arm was run and untouched afterwards, was measured at
+n = 3 per arm. Both arms reached 11 of 11 — the separation did not reappear —
+and the arms differed on cost alone (arm B 370,646–447,227 tokens, arm C
+89,683–115,518). The one examination-side defect that survived into that task
+was reported by five of the six runs, independently, and was left in place
+rather than repaired mid-measurement.
+
+Two consequences follow for the argument of §3.1. First, the detector inventory
+is three, not two: the checks, the subject under test, and review of the
+*method* by a party who did not write it. The third is the only one of the three
+that can examine the grader's behaviour on inputs the design never generates.
+Second, the freeze is not a formality. The discipline that made this case
+diagnosable at all — every artefact committed, every revision dated — is the
+same discipline that would have prevented it.
 
 ---
 
