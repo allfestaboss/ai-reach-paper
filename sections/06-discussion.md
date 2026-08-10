@@ -77,8 +77,11 @@ reliability: compare the per-question breakdowns rather than only the totals,
 and treat any deduction shared by every run as an examination defect until shown
 otherwise. It is worth noting how narrowly this one was caught. Six runs were
 commissioned to measure cost variance, not to audit the task; the defect was a
-by-product, and in `doboku`, which has no repeated runs at all, it would not
-have been visible. (`bim` has since acquired repeated runs; see §3.1.8.)
+by-product, and in `doboku`, which had no repeated runs at the time, it would
+not have been visible. (Both have since acquired them: `bim` in §3.1.8, and
+`doboku` in §3.2.1 — where three runs of one arm returned 26, 26 and 92, and
+the single run behind the published figure turns out to have been one draw from
+a coin.)
 
 **Have the method read by someone who did not write it, and freeze before
 running.** A fifth change, forced on us later still, and the only one of the

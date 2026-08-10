@@ -397,81 +397,6 @@ three times in one benchmark: a defect the solvers could not see (§3.1.5), a
 defect they could and did (§3.1.6), and a defect introduced by the act of
 repairing the second, again found by the solvers and by nothing else.
 
-### 3.1.8 The re-issue, and an examination-side defect that was the operator
-
-The task was re-issued with the numbers removed from the explanatory note and
-nothing else changed — questions, rules and input files are identical to the
-character, which we verified mechanically. It was frozen and run three times on
-each arm.
-
-**The prediction held.** Both arms answered all thirteen questions correctly:
-three of three runs on the code-executing arm, and two of three on the
-read-only arm, with the third accounted for below. The two questions that three
-of six runs had answered differently under the original statement were answered
-identically by every run once the statement distinguished them. **No run
-reported a disclosed answer**, against three of three on the previous issue.
-The diagnosis of §3.1.6 — that the disagreement was a property of the question
-and not of the solvers — is supported.
-
-The remaining run is the finding. Partway through, the read-only arm's delegated
-sub-agents began failing to return results through a secondary messaging channel,
-and some of their output surfaced in the operator's stream instead of their
-parent's. **We read this as a broken pipeline and instructed the two running
-solvers to stop waiting and submit what they had.** One complied and returned
-seven of thirteen, wrong by exactly one on all six questions that count spatial
-entities and elements — the signature of a truncated pass. The other did not
-comply, waited, and returned thirteen of thirteen; its final report states that
-the channel had not been broken at all, only slow, that every outstanding result
-arrived, the last about twenty-three minutes in, and that **had it followed our
-instruction it would have scored zero on all thirteen.** It lists our
-misdiagnosis explicitly among the examination-side defects it was asked to
-report.
-
-It was right, and the consequence is that **the operator became an
-examination-side defect in the middle of a frozen measurement.** We were careful
-in one respect and careless in another. Careful: we declined to relay the
-delegates' output to their parent, on the grounds that someone holding the
-reference should not carry messages inside the system under test, and we passed
-no task content — only the instruction to stop waiting. Careless: that
-instruction was itself an intervention, it was based on a misreading of a
-transport failure as a pipeline failure, and it decided the difference between a
-full score and a partial one on the run that obeyed it. The freeze held
-throughout — the statement, reference and prompt template are byte-identical
-before and after — and it did not help, because **a freeze constrains the
-artefacts and says nothing about the operator's conduct during the run.**
-
-Two further conditions of that arm were wrong and are worth stating because they
-were wrong three issues running. The constraint text told the read-only arm it
-could use three tools to search files; **two of the three do not exist in this
-environment**, which we confirmed by probing a fresh session and reading the
-error text, and the only working search route was the one the arm's own
-constraint forbade. The arm was therefore reduced to reading seventeen files
-linearly. The same defect is recorded against the first issue of this task, and
-we nevertheless wrote in the run logs of the two subsequent issues that the
-condition had been fixed. **We had not checked.** A false entry in the record is
-worse than the original defect, because the original was visible to anyone who
-read the log and the correction was not.
-
-Consequently **the cost comparison for this task is void** — the read-only arm's
-token counts mix the cost of its assigned handicap with the cost of a search
-capability it was promised and did not have, and the two cannot be separated.
-The attainment comparison is unaffected: reading linearly is slower, not less
-correct, and the arm reached thirteen of thirteen twice.
-
-A related gap: the prompt the solver actually received was a template with a
-substitution slot, and **only the template was frozen.** The substituted text —
-including the false claim about available tools — existed nowhere in the
-repository until we transcribed it after the fact. A freeze that covers the
-question but not the instructions is not covering what the solver read.
-
-Finally, one observation about the limits of solver reports, which §3.1.4
-recommends collecting. The truncated run declared its own least reliable figure
-in its report. **That figure was correct, and its actual errors were in six
-questions it had not flagged.** Solver reports have repeatedly located defects on
-the examination side in this series; this one is evidence that they should not
-be read as self-diagnosis. What the solver can see is the question it was asked.
-What it cannot see is where its own count went wrong.
-
 ### 3.1.8 A defect no solver could report, found by external review
 
 The instances above divide detection between two parties: the benchmark's own
@@ -552,6 +477,91 @@ Second, the freeze is not a formality. The discipline that made this case
 diagnosable at all — every artefact committed, every revision dated — is the
 same discipline that would have prevented it.
 
+### 3.1.9 The re-issue, and an examination-side defect that was the operator
+
+The task was re-issued with the numbers removed from the explanatory note and
+nothing else changed — questions, rules and input files are identical to the
+character, which we verified mechanically. It was frozen and run three times on
+each arm.
+
+**The prediction held.** Both arms answered all thirteen questions correctly:
+three of three runs on the code-executing arm, and two of three on the
+read-only arm, with the third accounted for below. The two questions that three
+of six runs had answered differently under the original statement were answered
+identically by every run once the statement distinguished them. **No run
+reported a disclosed answer**, against three of three on the previous issue.
+The diagnosis of §3.1.6 — that the disagreement was a property of the question
+and not of the solvers — is supported.
+
+The remaining run is the finding. Partway through, the read-only arm's delegated
+sub-agents began failing to return results through a secondary messaging channel,
+and some of their output surfaced in the operator's stream instead of their
+parent's. **We read this as a broken pipeline and instructed the two running
+solvers to stop waiting and submit what they had.** One complied and returned
+seven of thirteen, wrong by exactly one on all six questions that count spatial
+entities and elements — the signature of a truncated pass. The other did not
+comply, waited, and returned thirteen of thirteen; its final report states that
+the channel had not been broken at all, only slow, that every outstanding result
+arrived, the last about twenty-three minutes in, and that **had it followed our
+instruction it would have scored zero on all thirteen.** It lists our
+misdiagnosis explicitly among the examination-side defects it was asked to
+report.
+
+It was right, and the consequence is that **the operator became an
+examination-side defect in the middle of a frozen measurement.** We were careful
+in one respect and careless in another. Careful: we declined to relay the
+delegates' output to their parent, on the grounds that someone holding the
+reference should not carry messages inside the system under test, and we passed
+no task content — only the instruction to stop waiting. Careless: that
+instruction was itself an intervention, it was based on a misreading of a
+transport failure as a pipeline failure, and it decided the difference between a
+full score and a partial one on the run that obeyed it. The freeze held
+throughout — the statement, reference and prompt template are byte-identical
+before and after — and it did not help, because **a freeze constrains the
+artefacts and says nothing about the operator's conduct during the run.**
+
+Two further conditions of that arm were wrong and are worth stating because they
+were wrong three issues running. The constraint text told the read-only arm it
+could use three tools to search files; **two of the three do not exist in this
+environment**, which we confirmed by probing a fresh session and reading the
+error text, and the only working search route was the one the arm's own
+constraint forbade. The arm was therefore reduced to reading seventeen files
+linearly. The same defect is recorded against the first issue of this task, and
+we nevertheless wrote in the run logs of the two subsequent issues that the
+condition had been fixed. **We had not checked.** A false entry in the record is
+worse than the original defect, because the original was visible to anyone who
+read the log and the correction was not.
+
+We first wrote that this voided the task's cost comparison. On closer reading it
+does not, and the distinction is worth stating because it is easy to get wrong in
+both directions. **The arm's designed condition is "no shell, no code
+execution"**, and in this environment that condition entails reading only —
+the sole working search route is the shell, which the condition forbids. The
+realised condition therefore matched the designed one. What was false was the
+prompt, which told the arm it held two tools that do not exist. The residue is
+not a missing entitlement but wasted effort: failed calls, and whatever
+re-planning followed from believing the promise. That is a smaller claim than
+"void", and unlike "void" it is measurable — we re-ran the arm three times with
+the tool description corrected and nothing else changed, and report the
+comparison in §3.2.2. The attainment comparison was never in doubt: reading
+linearly is slower, not less correct, and the arm reached thirteen of thirteen
+twice.
+
+A related gap: the prompt the solver actually received was a template with a
+substitution slot, and **only the template was frozen.** The substituted text —
+including the false claim about available tools — existed nowhere in the
+repository until we transcribed it after the fact. A freeze that covers the
+question but not the instructions is not covering what the solver read.
+
+Finally, one observation about the limits of solver reports, which §3.1.4
+recommends collecting. The truncated run declared its own least reliable figure
+in its report. **That figure was correct, and its actual errors were in six
+questions it had not flagged.** Solver reports have repeatedly located defects on
+the examination side in this series; this one is evidence that they should not
+be read as self-diagnosis. What the solver can see is the question it was asked.
+What it cannot see is where its own count went wrong.
+
+
 ---
 
 ## 3.2 How far three known effects vary across domains
@@ -577,7 +587,38 @@ Measured across these domains, the spread is wide enough to change sign:
 
 In `doboku`, arm A could not emit a readable file at all and is disqualified at
 25/100; a description of the file format — nothing about the drawing — lifts
-arm B to 97/100. In `kanzei`, enlarging the material from 0.81 to 4.4 million
+arm B to 97/100. **Both halves of that sentence have since been qualified, and
+the entry should be read with both qualifications attached.**
+
+**The unsupplied arm's failure does not replicate.** That benchmark had no
+repeated runs when the figure was reported. Run three times on the same task
+under the same condition, arm A scored 26, 26 and 92. The whole spread turns on
+one binary guess — whether each record is wrapped in the format's comment
+delimiters or written as a numbered instance — which decides whether any
+geometry is recognised at all. All three runs named that guess among their own
+top risks before submitting; one of them ranked it first, called it fatal if
+wrong, and got it wrong. **A single run of this arm measures that coin, not the
+arm**, and the 25/100 in the table is one draw from it.
+
+**The supplied material contains four rows of the reference solution.** The
+format description handed to arm B — and withheld from arm A — reproduces
+verbatim one graded geometry record and **all three of the feature types the
+task added over its predecessor**. The document states that it was derived from
+the reference; it was. The geometry record is the costly one: it resolves, in a
+single line, the four index conventions (layer, colour, line type, line width)
+that every run named as its most dangerous guess, and it is where the unsupplied
+arm dies. Arm B's runs found this and reported it; we confirmed it by exact
+match and added a check for it.
+
+The consequence is that **this entry does not isolate the effect it is presented
+as measuring.** "Explaining the format" and "handing over four answers" are
+confounded, and the 25 → 97 figure is the sum of the two. We have not repaired
+the material — revising it after reading submissions is the failure of §3.1.9 —
+so the confound stands in the recorded result and is removed in a later issue.
+Nothing here disturbs the direction of the effect, which is large and positive;
+what it disturbs is the magnitude and the attribution.
+
+In `kanzei`, enlarging the material from 0.81 to 4.4 million
 characters **changed none of the 61 answers**: four were corrected and four were
 broken. Decomposed, 34 of 61 (56%) are answered correctly under every
 condition, 15 remain wrong under all of them, and 12 move. Every case that broke
