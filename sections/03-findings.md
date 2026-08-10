@@ -541,11 +541,15 @@ realised condition therefore matched the designed one. What was false was the
 prompt, which told the arm it held two tools that do not exist. The residue is
 not a missing entitlement but wasted effort: failed calls, and whatever
 re-planning followed from believing the promise. That is a smaller claim than
-"void", and unlike "void" it is measurable — we re-ran the arm three times with
-the tool description corrected and nothing else changed, and report the
-comparison in §3.2.2. The attainment comparison was never in doubt: reading
-linearly is slower, not less correct, and the arm reached thirteen of thirteen
-twice.
+"void", and unlike "void" it is measurable. We re-ran the arm three times with
+the tool description corrected and nothing else changed: **the corrected runs
+cost three per cent more than the originals**, a difference smaller than the
+spread between the corrected runs themselves (245k, 406k, 382k orchestrator
+tokens). The false promise is not detectable in the cost, and the original
+figures stand. We record this because the correction we were about to publish
+was larger than the effect it was correcting. The attainment comparison was
+never in doubt: reading linearly is slower, not less correct, and the corrected
+arm reached thirteen of thirteen in all three runs.
 
 A related gap: the prompt the solver actually received was a template with a
 substitution slot, and **only the template was frozen.** The substituted text —
@@ -691,9 +695,50 @@ per-question breakdown — so this is again a case where a benchmark reporting
 only score would record the two configurations as equivalent. The 5.4 points
 lost in common are an examination-side defect of ours, analysed in §3.1.5.
 
-One further observation is consistent and is reported as such: in `bim`, arm C
-scored 255/255 against 235/255 while consuming 98,901 tokens against 371,572.
-That is not a controlled measurement of cost.
+**A third domain, at a larger separation and with a weaker control.** `bim`
+T007 was run three times per arm on a counting task over seventeen files.
+**All six runs that completed without operator interference scored 100** (the
+seventh is the run described in §3.1.9). Costs are orchestrator tokens over
+three runs:
+
+| | tokens (3 runs) | total | vs arm C |
+|---|---|---|---|
+| arm B (no execution) | 408,013 / 301,328 / 292,932 | 1,002,273 | 3.98x |
+| arm B corrected | 245,397 / 405,930 / 382,060 | 1,033,387 | 4.11x |
+| arm C (execution permitted) | 85,786 / 89,188 / 76,657 | **251,631** | 1 |
+
+The sign agrees with `jiban` and `kikai` and the magnitude is larger, which is
+what the task's shape predicts: the corpus is 10,095 lines but 6.78 million
+tokens, almost all of it in geometry lines, so an arm that cannot execute must
+move the input through context. The control is weaker than in the other two
+domains in two respects, and both cut the same way. Arm B was permitted
+subagents here and used between eight and twenty-three of them, so **the figures
+are lower bounds** — the delegates' consumption is not included, and one run
+self-reported roughly 1.6 million tokens of it. Arm C used none. The ratio in
+the table is therefore not comparable to the subagent-free ratios above.
+
+The "corrected" row is the re-run of §3.1.9, with the arm's tool description
+fixed and nothing else changed. It came out **three per cent above the original,
+inside the spread of its own three runs**, which is the evidence that the false
+description had no measurable cost effect.
+
+Two further observations from those runs bear on cost rather than score. **The
+read-only arm found a technique we had not anticipated**: a read that exceeds
+the tool's token cap fails without charge while reporting the exact token count
+of the range requested, which turns the read tool into a free ruler — prefix
+sums then price any block of the file without opening it, and the giant lines
+can be bisected around rather than met. And **part of this corpus is not
+readable by that arm at all**: a few dozen lines individually exceed the cap,
+the largest at roughly 143,000 tokens, and the tool cannot return a fragment of
+a line. Those entities were typed by inference from surrounding references. It
+did not affect any of the thirteen answers here; it would affect a corpus that
+placed relationships or attributes inside such lines. That is a capability
+difference rather than a cost difference, and it is the sharpest one we have
+between these two arms.
+
+An earlier, uncontrolled observation from the same benchmark is retained for
+continuity: arm C scored 255/255 against 235/255 while consuming 98,901 tokens
+against 371,572. That is not a controlled measurement of cost.
 
 A benchmark reporting only score would record the `jiban` configurations as
 equivalent at both task sizes.
