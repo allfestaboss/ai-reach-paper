@@ -604,23 +604,35 @@ top risks before submitting; one of them ranked it first, called it fatal if
 wrong, and got it wrong. **A single run of this arm measures that coin, not the
 arm**, and the 25/100 in the table is one draw from it.
 
-**The supplied material contains four rows of the reference solution.** The
-format description handed to arm B — and withheld from arm A — reproduces
-verbatim one graded geometry record and **all three of the feature types the
-task added over its predecessor**. The document states that it was derived from
-the reference; it was. The geometry record is the costly one: it resolves, in a
-single line, the four index conventions (layer, colour, line type, line width)
-that every run named as its most dangerous guess, and it is where the unsupplied
-arm dies. Arm B's runs found this and reported it; we confirmed it by exact
-match and added a check for it.
+**The supplied material contained four rows of the reference solution, and this
+turned out not to matter.** The format description handed to arm B — and withheld
+from arm A — reproduces verbatim one graded geometry record and **all three of
+the feature types the task added over its predecessor**. The document states that
+it was derived from the reference; it was. The geometry record is the costly one:
+it resolves, in a single line, the four index conventions (layer, colour, line
+type, line width) that every run named as its most dangerous guess, and it is
+where the unsupplied arm dies. Arm B's runs found this and reported it; we
+confirmed it by exact match.
 
-The consequence is that **this entry does not isolate the effect it is presented
-as measuring.** "Explaining the format" and "handing over four answers" are
-confounded, and the 25 → 97 figure is the sum of the two. We have not repaired
-the material — revising it after reading submissions is the failure of §3.1.9 —
-so the confound stands in the recorded result and is removed in a later issue.
-Nothing here disturbs the direction of the effect, which is large and positive;
-what it disturbs is the magnitude and the attribution.
+Rather than revise the material — the failure of §3.1.9 — we left it in place and
+**issued a second copy with the disclosures removed and the explanatory content
+unchanged**: the standard colour, line-type and line-width tables, the ordering
+rule and the full-scale-coordinate rule all stay, while every example value and
+entity number is replaced by one that does not occur in the task. Before running
+we verified that no example row matches the reference and that all five parse
+correctly with the expected argument counts, so the document is still a working
+specimen of the format. **Arm B scored 100 in all three runs, exactly as it had
+with the leaking material.** The four disclosed rows were not carrying the score,
+and the 25 → 97 figure can be read as the effect of explaining the format.
+
+Two limits on that inference, both declared before the runs. The replacement
+changed two things, not one — the example values and the example entity numbers —
+and the second also removed an internal inconsistency in the original document
+that four runs had reported as a defect. **A drop could therefore not have been
+attributed to the disclosures alone; the absence of a drop is the inference the
+design supports, and that is what occurred.** And 100 is a ceiling: this
+measurement can detect a fall, so it establishes that the arm reaches the top
+without the disclosures, not that the disclosures contributed nothing.
 
 In `kanzei`, enlarging the material from 0.81 to 4.4 million
 characters **changed none of the 61 answers**: four were corrected and four were

@@ -87,9 +87,11 @@ misdiagnosis.
 The same design lets us measure how far three known effects vary across
 domains, holding the procedure fixed. Supplying the governing material moves a
 drawing-generation task from 25 to 97 out of 100 — a figure we now report with
-two qualifications, since the unsupplied arm's failure does not replicate
-(26, 26 and 92 over three runs, the spread turning on one binary guess) and the
-supplied material contains four rows of the reference — while in customs
+one qualification rather than two, since the unsupplied arm's failure does not
+replicate (26, 26 and 92 over three runs, the spread turning on one binary
+guess), while the supplied material's four disclosed reference rows turned out
+not to carry the score: re-issued with them removed and the explanation intact,
+the supplied arm scored 100 in all three runs — while in customs
 classification enlarging it from 0.81 to 4.4 million characters leaves all 61
 answers unchanged. Scores saturate while cost does not: in three domains
 replicated at n = 3 per configuration, scores tied while token consumption
@@ -135,8 +137,8 @@ another; auditing the series for it found two more.
 
 The same design measures how far three documented effects vary by domain.
 Supplying the governing material ranges from moving a task 25 to 97 out of 100
-to changing none of 61 — the first doubly qualified, as that arm's failure does
-not replicate and the material contains reference rows. Where scores tie, cost
+to changing none of 61 — the first qualified, as that arm's failure does not
+replicate; the material's disclosed reference rows proved not to matter. Where scores tie, cost
 does not: across three domains, tied scores came at token ratios of 2.11x, 1.49x
 and about 4x. Answers change under identical repetition in 0-82 percent of cases. All benchmarks and defect records carry DOIs.
 
