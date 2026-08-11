@@ -142,3 +142,19 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+def check_versions():
+    """CITATION.cff と .zenodo.json の版がズレたまま公開すると、
+    **Zenodo は .zenodo.json のほうを採る。**実際に v1.3.0 を 1.2.1 として
+    登録させた。ここで落とす。"""
+    import json, yaml
+    cff = yaml.safe_load(open("CITATION.cff"))["version"]
+    zen = json.load(open(".zenodo.json")).get("version")
+    if zen is not None and zen != cff:
+        raise SystemExit(
+            f"版がズレている。CITATION.cff={cff} / .zenodo.json={zen}\n"
+            f"  **このまま release を切ると Zenodo は {zen} として登録する。**")
+    print(f"  版の一致        CITATION.cff = .zenodo.json = {cff}")
+
+
+check_versions()
