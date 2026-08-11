@@ -176,6 +176,38 @@ that had already run, the repositories now carry a hash record labelled as a
 it only makes later drift detectable. The distinction is kept in the filenames
 so that a reader cannot mistake one for the other.
 
+### 4.2.7 A check we added to enforce the freeze broke the freeze
+
+The freeze in §4.2.6 is enforced by hashing the artefacts a solver reads. In
+`cad`, whose reference is a DXF drawing, we put the drawing itself in that set.
+The drawing is **generated** from a specification by the same script that runs
+the benchmark, and a DXF embeds a creation timestamp and fresh object
+identifiers, so its bytes are not stable across regenerations. The first run
+after the check was installed regenerated all five references, recorded the new
+bytes, and the commit that introduced the freeze **rewrote the five published
+reference files it was written to protect.**
+
+The damage was nil and the class is not. Regenerated against the originals, the
+geometry was identical and every item scored the same 100.0, so no reported
+figure moved. But bytes released under a DOI were changed by the act of adding a
+check that they should not change.
+
+The repair is a rule about what may be frozen: **hash the inputs, not the
+outputs.** A generated artefact is verified by regenerating it and comparing
+*meaning* — here, re-scoring the old and new files against each other — rather
+than by comparing bytes. We also had to correct the scope twice more in the same
+repository: the temporary file written during that comparison first overwrote
+the real reference, and then, moved to a scratch directory, broke a loader that
+expects a sibling file next to it. And `arms/README.md` sat in the enforced set
+though no solver reads it, so every newly issued task failed the check for a
+file outside the measurement.
+
+The general form is worth stating because it does not appear in the defect
+catalogue of §3.1: **a check can be a mutation of the thing it checks.** Every
+class in §3.1 concerns a check that failed to see something. This one saw
+correctly and changed the subject in the course of looking. Nothing in a design
+built around verification detects that, because the check reported success.
+
 ---
 
 ## 4.3 External validity
@@ -220,7 +252,9 @@ We cannot separate these, and the design does not permit it.
 `kanzei` addresses a task for which prior work reports fine-tuning on 18,731
 customs rulings and a 632-entry expert-annotated benchmark; `bim` addresses one
 for which prior work provides 324 tasks over 11 building models. Against those,
-four and two tasks are small. Their contribution here is participation in a
+two and five distinct questions are small — and the count that matters for this
+comparison is the distinct one of §2.6, not the released-directory total, since
+the variants re-ask a question already counted. Their contribution here is participation in a
 cross-domain comparison under one design, not classification accuracy.
 
 ---

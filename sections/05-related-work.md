@@ -83,7 +83,8 @@ tasks over 11 real and 36 synthetic IFC models. AECV-Bench evaluates multimodal
 understanding of architectural and engineering drawings.
 
 Our customs and BIM benchmarks are substantially smaller than the corresponding
-prior work — four and two tasks against 18,731 rulings and 324 tasks — and are
+prior work — two and five distinct questions (§2.6) against 18,731 rulings and
+324 tasks — and are
 not competitive as measurements of those tasks in isolation (§4.3.5). They are
 included because a cross-domain comparison requires the same design in every
 domain, and because the defect record in §3.1.3 comes from the customs

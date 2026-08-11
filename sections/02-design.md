@@ -116,7 +116,25 @@ why generalisation is limited (§4.3.3). And the tasks divide into **generation*
 §3.2.1 suggests may track the sign of the material effect, though eight domains
 cannot settle it.
 
-## 2.6 Experimental setup
+## 2.6 What "33 tasks" counts
+
+The count is of released task directories, and it mixes two things that should
+be separated when reading the evidence. **Twenty-five are distinct questions.**
+The remaining **eight are variants that hold the question fixed and vary exactly
+one factor**: three in `kikai` and two in `bim` vary an examination-side
+property of the task statement or answer format (§3.1.10, §3.1.6), two in
+`kanzei` vary the size of the supplied material and the checker, and one in
+`zeimu` is the same question re-issued to measure run-to-run variance.
+
+The variants are not padding, and they are not independent evidence either.
+Every controlled comparison in §3.1.10 and §3.2.1 depends on them, because the
+only way to attribute a score change to one factor is to change one factor. But
+a reader estimating how much of professional practice this series covers should
+use 25, not 33. Earlier releases of this paper reported 24 without stating a
+rule; that number is superseded by the rule above rather than by a correction to
+it, since the series has grown since.
+
+## 2.7 Experimental setup
 
 The benchmark harness did not record the identity of the system executing the
 arms. Token counts, durations and tool-use counts were captured per run; the
@@ -155,7 +173,7 @@ Neither the reconstruction nor its gaps should be taken as adequate. A
 contemporaneous record is what is required, and its absence here is a defect in
 the study on the same footing as those reported in §3.1.3.
 
-## 2.7 What is measured
+## 2.8 What is measured
 
 Each benchmark scores on a ladder rather than a single figure, so that partial
 competence is visible: whether the output parses at all, whether the right scope

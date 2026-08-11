@@ -63,7 +63,7 @@ this paper addresses.
 ## 1.3 Building eight benchmarks surfaced a problem in benchmark construction
 
 We set out to measure how far these systems reach into Japanese professional
-practice, and built eight benchmarks — 24 tasks across civil and architectural
+practice, and built eight benchmarks — 33 tasks across civil and architectural
 CAD, quantity surveying, geotechnical assessment, mechanical tolerancing,
 building information modelling, customs classification and tax law — to a single
 design. That design requires the inputs, the procedure and the reference

@@ -85,6 +85,12 @@ reported in §3.2.
 fields to the task statement would change the scores, and the six runs were
 commissioned to measure cost, which requires the task to be identical across
 them. The defect falls equally on all six, so the comparison in §3.2.2 is
-unaffected; it costs every run the same 5.4 points. The correction is queued for
-a subsequent version, and the figures here are the uncorrected ones and are
-labelled as such in the repository.
+unaffected; it costs every run the same 5.4 points.
+
+It has since been addressed **without editing the task**, which is the pattern
+the series settled on for defects discovered after answers exist. T001 stands as
+issued, with its defect recorded; three successor tasks share its reference byte
+for byte and repair the two disclosure routes in the 2×2 of §3.1.10. The figures
+reported here are T001's and remain the uncorrected ones, labelled as such in the
+repository, and the repaired scores are reported alongside rather than in place
+of them.

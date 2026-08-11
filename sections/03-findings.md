@@ -193,8 +193,11 @@ to look for defects. It produced two results that bear on the argument above,
 and both cut against it.
 
 **A defect the solvers could not have reported.** All six runs scored 94.6 with
-an identical per-question breakdown, losing the same 4.8 points at the same nine
-of twenty-eight items. The graded question covers five fields — the form of the
+an identical per-question breakdown, losing the same 5.4 points at the same nine
+of twenty-eight items. (The deduction is 4.8 raw points out of the graded
+question's 15; the reported scale normalises the paper's 90 raw points to 100,
+and figures in this paper are on the reported scale unless stated. §7 quotes the
+same 5.4.) The graded question covers five fields — the form of the
 tolerance zone, projected length, unit length, unit area shape, and material
 modifiers. **Four of the five appear nowhere in the task statement or the answer
 format.** Only one of those four has instances in this file, so the entire
@@ -204,7 +207,8 @@ format's worked example uses a flatness tolerance, which carries no diameter
 symbol, so the example is structurally incapable of revealing that the field
 exists. Six solvers, in two arms, using different methods — one reading the file
 directly, one writing a parser — omitted it identically. They did not misread
-anything. They answered what was asked.
+anything. They answered what was asked. **§3.1.10 tests that
+explanation directly and supports it.**
 
 This is an examination-side defect of the same kind as the fifteen in §3.1.3,
 but it reached us by a different route. No solver reported it, and none could
@@ -564,6 +568,53 @@ questions it had not flagged.** Solver reports have repeatedly located defects o
 the examination side in this series; this one is evidence that they should not
 be read as self-diagnosis. What the solver can see is the question it was asked.
 What it cannot see is where its own count went wrong.
+
+
+### 3.1.10 Isolating the examination-side cause by controlled substitution
+
+§3.1.5 diagnoses the `kikai` deduction as an examination-side defect and closes
+with an interpretation: the solvers *answered what was asked*. That is a claim
+about cause, and it was not measured. It is testable, because the defect has two
+independent components — the answer format's worked example is structurally
+incapable of revealing the field, and the task statement never asks for it — and
+the two can be varied separately.
+
+We built three successor tasks that **share the reference byte for byte** with
+the original and differ only in those two factors. T003 repairs the worked
+example, drawing its rows from files not otherwise used so that no graded row is
+disclosed, and leaves the question text untouched. T004 additionally rewrites the
+question to name all five graded fields. T005 removes the field from the worked
+example again — omitting the key, not falsifying its value — while the question
+still asks for it. With the original this completes a 2×2.
+
+| | worked example shows it | does not |
+|---|---|---|
+| **question asks for it** | T004 **100.0** (3 runs × 2 arms) | T005 **100.0** (3 runs) |
+| **does not ask** | T003 **100.0** (3 runs × 2 arms) | T001 **94.6** (3 runs × 2 arms) |
+
+Every cell but the original reaches full agreement, and the nine items that were
+null in all six original runs match the reference exactly in all of them.
+**Either component alone is sufficient; the original task failed because neither
+was present.** The interpretation in §3.1.5 is supported: the solvers were not at
+the edge of their ability, and 5.4 points of a published score were a property of
+the examination.
+
+**The design has a limit, and a solver stated it.** T005's note explains that the
+field was deliberately omitted from the example — and in doing so **names the
+key**. Grading matches on that key, so a version that withheld the name would not
+measure whether asking is sufficient; it would measure whether the solver can
+guess an identifier. The condition is therefore *asked, with the name available*,
+not *asked alone*, and this is not removable by better wording. All three runs
+reported taking the key from that sentence and the representation of a missing
+value from a sibling field. Read correctly, the factor being varied is not
+"shown or asked" but **whether the graded field's existence and name are
+discoverable at all** — and the original task was the one cell where neither
+route existed.
+
+This bears on §3.1.1 rather than softening it. The 2×2 was possible only because
+we already knew which field was affected, and we knew that from a constant
+deduction visible across six runs. Controlled substitution can localise an
+examination-side defect once replication has exposed it. It cannot find one.
 
 
 ---
