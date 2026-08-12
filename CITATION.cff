@@ -38,14 +38,14 @@ date-released: "2026-08-11"
 license: CC-BY-4.0
 
 # この版（v1.3.1）を指す DOI
-doi: "10.5281/zenodo.21887411"
+doi: "10.5281/zenodo.21896705"
 
 identifiers:
   - type: doi
     value: "10.5281/zenodo.21862231"
     description: "Concept DOI — 常に最新版に解決する。引用にはこちら。"
   - type: doi
-    value: "10.5281/zenodo.21887411"
+    value: "10.5281/zenodo.21896705"
     description: "Version DOI — v1.3.1 を指す。"
   - type: doi
     value: "10.5281/zenodo.21862232"
