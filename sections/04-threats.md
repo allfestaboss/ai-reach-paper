@@ -171,10 +171,33 @@ the two benchmarks that acquired new runs, and recorded the absence explicitly
 in the other six rather than leave it implicit.
 
 A related and smaller gap: freezing was introduced partway through. For tasks
-that had already run, the repositories now carry a hash record labelled as a
+that had already run, the repositories carry a hash record labelled as a
 **baseline rather than a freeze** — it does not certify anything about the past,
 it only makes later drift detectable. The distinction is kept in the filenames
 so that a reader cannot mistake one for the other.
+
+**That sentence was false when we first published it, in a way the checks could
+not report.** It said the records were in place; in two repositories they were
+not. Six tasks with answers carried no record of any kind — five in `bim`, one in
+`doboku` — and a seventh, a variant in `doboku`, carried a record that was never
+read, because the function mapping a variant name to its base directory split the
+name on the letter `n` and turned `T002clean` into `T002clea`. The verifier looked
+in a directory that does not exist, reported *no record found*, and returned
+success. **A missing record is not drift, so a checker built to detect drift
+passes.** Both were introduced by the same omission: the post-hoc baseline mode
+existed in only one of the eight repositories, so in the other two there was no
+command that could record an already-run task at all. They are fixed, and the
+sentence above is now true; we date it rather than silently repair it, because
+the published claim preceded the fact by four days.
+
+Two things about how it surfaced are worth more than the defect. It was found by
+**running the benchmarks rather than reading them**, in a verification pass
+prompted by the question of whether the work was finished — the same route that
+found §4.2.7. And `doboku` was the one repository with no single entry point:
+seven had a `run.sh` that executed every check, and the eighth required invoking
+each check by hand with the right arguments, so nobody ever invoked them all.
+**The absence of a way to run everything is why nothing reported that not
+everything had been run.**
 
 ### 4.2.7 A check we added to enforce the freeze broke the freeze
 
